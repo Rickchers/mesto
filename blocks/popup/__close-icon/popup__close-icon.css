@@ -1,0 +1,6 @@
+.popup__close-icon {
+  position: absolute;
+  left: calc(50% + 223px);
+  top: calc(50% - 205px);
+
+}

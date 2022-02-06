@@ -7,8 +7,10 @@
   margin: 0 0 16px 0;
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 768px) {
   .profile__title {
+    max-width: 189px;
+    margin: 22px auto 0;
     font-size: 27px;
     line-height: 33px;
     text-align: center;
