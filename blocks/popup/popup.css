@@ -1,9 +1,10 @@
 .popup {
-    display: flex;
+    display: none;
     align-items: center;
     width: 100vw;
     height: 100vh;
     position: fixed;
+    z-index: 2;
 }
 
 @media screen and (max-width: 320px) {

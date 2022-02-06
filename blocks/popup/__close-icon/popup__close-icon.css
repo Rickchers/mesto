@@ -4,3 +4,12 @@
   top: calc(50% - 205px);
 
 }
+
+@media screen and (max-width: 768px) {
+  .popup__close-icon {
+    width: 20px;
+    height: 20px;
+    left: calc(50% + 121px);
+    top: calc(50% - 197px);
+  }
+}

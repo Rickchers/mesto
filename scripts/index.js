@@ -1,6 +1,8 @@
 window.onload = function(){
   
   let popup = document.querySelector('.popup');
+  let closeIcon = popup.querySelector('.popup__close-icon');
+  closeIcon.addEventListener('click', closePopup);
   
   let form = document.querySelector('.popup__container');
   let formInputs = form.querySelectorAll('.popup__input');
@@ -12,6 +14,10 @@ window.onload = function(){
   
   editProfileButton.addEventListener('click', togglePopup);
   
+  function closePopup(){
+    popup.classList.remove('popup_opened');
+
+  };
  
   
 
