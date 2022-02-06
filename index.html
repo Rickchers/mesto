@@ -7,6 +7,16 @@
   <link rel="stylesheet" href="./pages/index.css">
 </head>
 <body class="page">
+  <section class="popup">
+      <form class="popup__container">
+        <h3 class="popup__title">Редактировать профиль</h3>
+        <fieldset class="popup__fieldset">
+          <input type="text" name="username" value="Введите ваше имя" class="popup__input">
+          <input type="text" name="userjob" value="Введите ваш род занятий" class="popup__input">
+        </fieldset>
+        <button type="submit" class="popup__button">Сохранить</button>
+      </form>
+  </section>
   <div class="root">
     <header class="header">
       <img src="./images/mesto.svg" class="header__logo">
@@ -17,7 +27,7 @@
         
         <img src="./images/custo.jpg" class="profile__avatar">
         <div class="profile__info"> 
-          <h1 class="profile__title">Жак-Ив Кусто <img src="./images/Edit Button.svg" class="profile__edit-button fade-out"></h1>
+          <h1 class="profile__title">Жак-Ив Кусто<img src="./images/Edit Button.svg" class="profile__edit-button fade-out"></h1>
           <p class="profile__subtitle">Исследователь океана, ученый</p>
         </div>
       
@@ -74,13 +84,14 @@
           </div>
         </div>
 
-      </section>    
-
-  
+      </section>  
     </main>
     <footer class="footer">
       <p class="footer__copyright">© 2022 Mesto Russia</p>
     </footer>
+  
   </div>
+
+  <script src="./scripts/index.js"></script>
 </body>
 </html>

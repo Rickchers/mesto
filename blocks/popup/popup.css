@@ -1,0 +1,13 @@
+.popup {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+}
+
+@media screen and (max-width: 320px) {
+    .popup {
+        min-width: 320px;
+    }
+  }
