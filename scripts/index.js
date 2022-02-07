@@ -1,6 +1,8 @@
 window.onload = function(){
   
   let popup = document.querySelector('.popup');
+  
+
   let closeIcon = popup.querySelector('.popup__close-icon');
   closeIcon.addEventListener('click', closePopup);
   
@@ -16,7 +18,6 @@ window.onload = function(){
   
   function closePopup(){
     popup.classList.remove('popup_opened');
-
   };
  
   
@@ -44,8 +45,14 @@ window.onload = function(){
   
   form.addEventListener('submit', formSubmitHandler);
 
-
+  function closePopupByClickOnOverlay(event) {
+    if (event.target !== event.currentTarget) {
+      return;
+    }  
+    closePopup();
+  }
   
+  popup.addEventListener('click', closePopupByClickOnOverlay);
 
  
 };
