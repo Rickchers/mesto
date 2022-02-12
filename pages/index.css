@@ -1,6 +1,6 @@
 @import url(../vendor/normalize.css);
-@import url(../blocks/root/root.css);
 @import url(../blocks/fonts/fonts.css);
+@import url(../blocks/root/root.css);
 
 /*block fade-out*/
 @import url(../blocks/fade-out/fade-out.css);
@@ -20,6 +20,7 @@
 @import url(../blocks/profile/__title/profile__title.css);
 @import url(../blocks/profile/__subtitle/profile__subtitle.css);
 @import url(../blocks/profile/__edit-button/profile__edit-button.css);
+@import url(../blocks/profile/__wrapper/profile__wrapper.css);
 
 /*block cards*/
 @import url(../blocks/cards/cards.css);
@@ -43,4 +44,5 @@
 @import url(../blocks/popup/__fieldset/popup__fieldset.css);
 @import url(../blocks/popup/__input/popup__input.css);
 @import url(../blocks/popup/_opened/popup_opened.css);
-@import url(../blocks/popup/__close-icon/popup__close-icon.css);
+@import url(../blocks/popup/__close-button/popup__close-button.css);
+@import url(../blocks/popup/__button-image/popup__button-image.css);
