@@ -16,3 +16,9 @@
   background-color: #000000;
   color: #FFFFFF;
 }
+
+@media screen and (max-width: 320px) {
+  .popup__button {
+    font-size: 14px;
+  }
+}
