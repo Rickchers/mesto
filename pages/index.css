@@ -1,9 +1,10 @@
 @import url(../vendor/normalize.css);
-@import url(../blocks/fonts/fonts.css);
+@import url(../fonts/fonts.css);
 @import url(../blocks/root/root.css);
 
 /*block fade-out*/
 @import url(../blocks/fade-out/fade-out.css);
+@import url(../blocks/fade-out/_big-button/fade-out_big-button.css);
 
 /*block page*/
 @import url(../blocks/page/page.css);
