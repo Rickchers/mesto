@@ -20,3 +20,11 @@
     text-align: center;
   }
 }
+
+@media screen and (max-width: 320px) {
+  .profile__title {
+    
+    margin: 27px auto 6px;
+    
+  }
+}
