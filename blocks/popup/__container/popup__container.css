@@ -4,6 +4,7 @@
   margin: 0 auto;
   flex-direction: column;
   width: 430px;
+  min-height: 330px;
   box-sizing: border-box;
   padding: 36px 36px;
   border-radius: 10px;
@@ -15,5 +16,12 @@
   .popup__container {
     width: 282px;
     padding: 25px 22px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .popup__container {
+    min-height: 322px;
+    justify-content: space-between;
   }
 }

@@ -31,7 +31,7 @@
           <img src="./images/kirill-pershin-1088404-unsplash.jpg" class="card__image" alt="древний замок в горах">
           <div class="card__title-container">
             <h2 class="card__title">Карачаевск</h2>
-            <button class="card__heart card__heart_active"></button>
+            <button class="card__heart card__heart_active" aria-label="кнопка добавить в понравившиеся"></button>
           </div>
         </article>
 
@@ -40,7 +40,7 @@
             alt="горы в закатных лучах солнца">
           <div class="card__title-container">
             <h2 class="card__title">Гора Эльбрус</h2>
-            <button class="card__heart fade-out"></button>
+            <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
           </div>
         </article>
 
@@ -48,7 +48,7 @@
           <img src="./images/kirill-pershin-1556355-unsplash.jpg" class="card__image" alt="пики горных вершин Домбая">
           <div class="card__title-container">
             <h2 class="card__title">Домбай</h2>
-            <button class="card__heart fade-out"></button>
+            <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
           </div>
         </article>
 
@@ -57,7 +57,7 @@
             alt="горы в закатных лучах солнца">
           <div class="card__title-container">
             <h2 class="card__title">Гора Эльбрус</h2>
-            <button class="card__heart fade-out"></button>
+            <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
           </div>
         </article>
 
@@ -65,7 +65,7 @@
           <img src="./images/kirill-pershin-1556355-unsplash.jpg" class="card__image" alt="пики горных вершин Домбая">
           <div class="card__title-container">
             <h2 class="card__title">Домбай</h2>
-            <button class="card__heart fade-out"></button>
+            <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
           </div>
         </article>
 
@@ -73,7 +73,7 @@
           <img src="./images/kirill-pershin-1088404-unsplash.jpg" class="card__image" alt="древний замок в горах">
           <div class="card__title-container">
             <h2 class="card__title">Карачаево-Черкесск</h2>
-            <button class="card__heart fade-out"></button>
+            <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
           </div>
         </article>
 
@@ -87,10 +87,10 @@
         <form name="user-profile" class="popup__form">
           <h2 class="popup__title">Редактировать профиль</h2>
           <fieldset class="popup__fieldset">
-            <input required type="text" name="username" value="" placeholder="Введите ваше имя" class="popup__input">
-            <input required type="text" name="userjob" value="" placeholder="Введите ваш род занятий" class="popup__input">
+            <input required type="text" id="username" value="" placeholder="Введите ваше имя" class="popup__input">
+            <input required type="text" id="userjob" value="" placeholder="Введите ваш род занятий" class="popup__input">
           </fieldset>
-          <button type="submit" class="popup__button fade-out fade-out_big-button">Сохранить</button>
+          <button type="submit" class="popup__button">Сохранить</button>
         </form>
         <button class="popup__close-button fade-out"><img src="./images/Close_Icon.svg" class="popup__button-image" alt="кнопка закрытия формы"></button>
       </div>

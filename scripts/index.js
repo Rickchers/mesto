@@ -8,15 +8,11 @@ let profile = document.querySelector('.profile')
 let UserName = profile.querySelector('.profile__title');
 let UserJob = profile.querySelector('.profile__subtitle');
 
-let formUserNameField = document.getElementsByName('username');
-let formUserJobField = document.getElementsByName('userjob');
+let formUserNameField = document.getElementById('username');
+let formUserJobField = document.getElementById('userjob');
 
 let editProfileButton = profile.querySelector('.profile__edit-button');
 
-//в этом месте текстовые значения модулей .profile__title и .profile__subtitle
-//записываются в поля формы .popup__form
-formUserNameField[0].value = UserName.textContent;
-formUserJobField[0].value = UserJob.textContent;
 
 
 
@@ -24,23 +20,28 @@ function closePopup(){
   popup.classList.remove('popup_opened');
 };
 
-function togglePopup(){
-  popup.classList.toggle('popup_opened');
+function openPopup(){
+  popup.classList.add('popup_opened');
+  //в этом месте текстовые значения модулей .profile__title и .profile__subtitle
+  //записываются в поля формы .popup__form
+  formUserNameField.value = UserName.textContent;
+  formUserJobField.value = UserJob.textContent;
+  
 };
 
 function formSubmitHandler(evt){
   evt.preventDefault();
   //здесь в текстовые значения модулей .profile__title и .profile__subtitle
   //записываются значения полей ввода формы, заполненные пользователем
-  UserName.textContent = formUserNameField[0].value;
-  UserJob.textContent = formUserJobField[0].value;
+  UserName.textContent = formUserNameField.value;
+  UserJob.textContent = formUserJobField.value;
   closePopup();
 }
 
 /*eventListeners*/
 closeIcon.addEventListener('click', closePopup);
 form.addEventListener('submit', formSubmitHandler);
-editProfileButton.addEventListener('click', togglePopup);
+editProfileButton.addEventListener('click', openPopup);
 
 
 

@@ -5,7 +5,7 @@
   border-radius: 2px;
   box-sizing: border-box;
 
-  margin-top: auto;
+  /*margin-top: auto;*/
   
   font-family: "Inter", Arial, sans-serif;
   text-align: center;
@@ -17,8 +17,16 @@
   color: #FFFFFF;
 }
 
+.popup__button:hover {
+  opacity: .8;
+  transition: opacity .25s linear .05s;
+  cursor: pointer;
+}
+
+
 @media screen and (max-width: 320px) {
   .popup__button {
     font-size: 14px;
+    height: 46px;
   }
 }
