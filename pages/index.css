@@ -26,6 +26,8 @@
 
 /*block cards*/
 @import url(../blocks/cards/cards.css);
+@import url(../blocks/card/__remove-button/card__remove-button.css);
+@import url(../blocks/card/__button-image/card__button-image.css);
 
 /*block card*/
 @import url(../blocks/card/card.css);

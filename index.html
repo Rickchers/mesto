@@ -27,7 +27,8 @@
       </section>
 
       <section class="cards" aria-label="фотогалерея">
-        <article class="card">
+        
+        <!-- <article class="card">
           <img src="./images/kirill-pershin-1088404-unsplash.jpg" class="card__image" alt="древний замок в горах">
           <div class="card__title-container">
             <h2 class="card__title">Карачаевск</h2>
@@ -75,27 +76,43 @@
             <h2 class="card__title">Карачаево-Черкесск</h2>
             <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
           </div>
-        </article>
+        </article> -->
 
       </section>
     </main>
     <footer class="footer">
       <p class="footer__copyright">© 2022 Mesto Russia</p>
     </footer>
+
+
     <div class="popup">
       <div class="popup__container">
         <form name="user-profile" class="popup__form">
           <h2 class="popup__title">Редактировать профиль</h2>
           <fieldset class="popup__fieldset">
-            <input required type="text" id="username" value="" placeholder="Введите ваше имя" class="popup__input">
-            <input required type="text" id="userjob" value="" placeholder="Введите ваш род занятий" class="popup__input">
+            <input required type="text" id="username" value="" placeholder="" class="popup__input">
+            <input required type="text" id="userjob" value="" placeholder="" class="popup__input">
           </fieldset>
           <button type="submit" class="popup__button">Сохранить</button>
         </form>
         <button class="popup__close-button fade-out"><img src="./images/Close_Icon.svg" class="popup__button-image" alt="кнопка закрытия формы"></button>
       </div>
     </div>
+
   </div>
+
+
+
+  <template id="card">
+    <article class="card">
+      <img src="" class="card__image" alt="">
+      <div class="card__title-container">
+        <h2 class="card__title">Домбай</h2>
+        <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
+      </div>
+      <button type="button" class="card__remove-button fade-out"><img class="card__button-image" src="./images/Trash.svg" alt="кнопка удалить карту"></button>
+    </article>
+  </template>
 
   <script src="./scripts/index.js"></script>
 </body>
