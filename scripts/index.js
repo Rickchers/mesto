@@ -11,7 +11,7 @@ let profile = document.querySelector('.profile')
 let UserName = profile.querySelector('.profile__title');
 let UserJob = profile.querySelector('.profile__subtitle');
 
-let formUserNameField = document.getElementById('username');
+let formUserNameField = document.getElementById('firstInput');
 let formUserJobField = document.getElementById('userjob');
 
 let editProfileButton = profile.querySelector('.profile__edit-button');
@@ -82,19 +82,22 @@ function openPopup(){
   popup.classList.add('popup_opened');  
 };
 
-function formSubmitHandler(evt){
-  evt.preventDefault();
+function formSubmitHandler(event){
+  event.preventDefault();
   //здесь в текстовые значения модулей .profile__title и .profile__subtitle
   //записываются значения полей ввода формы, заполненные пользователем
   UserName.textContent = formUserNameField.value;
   UserJob.textContent = formUserJobField.value;
-
+  form.removeEventListener('submit', formSubmitHandler);
   closePopup();
 }
 
-function formSubmitHandlerAddCard(evt){
-  evt.preventDefault();
-  addCard('Архыз', 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg');
+function formSubmitHandlerAddCard(event){
+  event.preventDefault();
+  curentInputValue = document.querySelector('#username').value;
+  curentInputLinkValue = document.querySelector('#userjob').value;
+  addCard(curentInputValue, curentInputLinkValue);
+  form.removeEventListener('submit', formSubmitHandlerAddCard);
   closePopup();
 }
 
@@ -108,6 +111,8 @@ addCardButton.addEventListener('click', addCardByUser);
 
 
 
+
+
 function editProfile(){
   formUserNameField.value = UserName.textContent;
   formUserJobField.value = UserJob.textContent;
@@ -116,7 +121,7 @@ function editProfile(){
   openPopup();
 }
 
-function addCardByUser(){
+function addCardByUser(event){
   formUserNameField.value = '';
   formUserJobField.value = '';
   formUserNameField.placeholder = 'Название';
