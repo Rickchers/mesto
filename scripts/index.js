@@ -1,17 +1,20 @@
 let popup = document.querySelector('.popup');
 
-let closeIcon = popup.querySelector('.popup__close-button');
+let popupPreview = document.querySelector('.popup__preview');
+
+let closeIcon = document.querySelectorAll('.popup__close-button');
+
 let popupTitle = popup.querySelector('.popup__title');
-
-let addCardButton = document.querySelector('.profile__add-button');
-
 let form = popup.querySelector('.popup__form');
 
+
+
 let profile = document.querySelector('.profile')
+let addCardButton = profile.querySelector('.profile__add-button');
 let UserName = profile.querySelector('.profile__title');
 let UserJob = profile.querySelector('.profile__subtitle');
 
-let formUserNameField = document.getElementById('firstInput');
+let formUserNameField = document.getElementById('username');
 let formUserJobField = document.getElementById('userjob');
 
 let editProfileButton = profile.querySelector('.profile__edit-button');
@@ -59,6 +62,7 @@ function addCard(cardTitleValue, cardImageLinkValue){
   cardItem.querySelector('.card__image').src = cardImageLinkValue;
   cardItem.querySelector('.card__heart').addEventListener('click', toggleLiked);
   cardItem.querySelector('.card__remove-button').addEventListener('click', removeCard);
+  cardItem.querySelector('.card__image').addEventListener('click', preview);
 
   cards.append(cardItem);
 }
@@ -74,12 +78,12 @@ function removeCard(event){
 }
 
 //=============================================================================================
-function closePopup(){
-  popup.classList.toggle('popup_opened');
+function closePopup(event){
+  event.target.closest('.popup').classList.toggle('popup_opened');
 };
 
-function openPopup(){
-  popup.classList.add('popup_opened');  
+function openPopup(modWindow){
+  modWindow.classList.add('popup_opened');  
 };
 
 function formSubmitHandler(event){
@@ -101,13 +105,7 @@ function formSubmitHandlerAddCard(event){
   closePopup();
 }
 
-/*eventListeners*/
 
-closeIcon.addEventListener('click', closePopup);
-
-
-editProfileButton.addEventListener('click', editProfile);
-addCardButton.addEventListener('click', addCardByUser);
 
 
 
@@ -118,7 +116,7 @@ function editProfile(){
   formUserJobField.value = UserJob.textContent;
   popupTitle.textContent = 'Редактировать профиль';
   form.addEventListener('submit', formSubmitHandler);
-  openPopup();
+  openPopup(popup);
 }
 
 function addCardByUser(event){
@@ -128,11 +126,27 @@ function addCardByUser(event){
   formUserJobField.placeholder = 'Ссылка на картинку';
   popupTitle.textContent = 'Новое место';
   form.addEventListener('submit', formSubmitHandlerAddCard);
-  openPopup();
+  openPopup(popup);
 }
 
+function preview(event){
+  console.log(event.target.closest('.card__image').src);
+  document.querySelector('.popup__image').src = event.target.closest('.card__image').src;
+  openPopup(popupPreview);
+
+}
+
+/*eventListeners*/
+
+//методом .forEach() навешивается слушатель событий на все кнопки
+//закрывания поп-апов с классом ".popup__close-button" в документе
+closeIcon.forEach((userItem) => {
+  userItem.addEventListener('click', closePopup);
+});
 
 
+editProfileButton.addEventListener('click', editProfile);
+addCardButton.addEventListener('click', addCardByUser);
 
 
 
