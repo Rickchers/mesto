@@ -1,7 +1,7 @@
 //поп-ап с формой
 const popup = document.querySelector('.popup');
 //поп-ап с картинкой
-const popupPreview = document.querySelector('.popup__preview');
+const popupPreview = document.querySelector('#popup-preview');
 //все кнопки закрытия поп-апов
 const closeIcon = document.querySelectorAll('.popup__close-button');
 //заголовок поп-апа с формой
