@@ -81,17 +81,17 @@ initialCards.forEach((item) => {
 });
 
 
-
 //функция создания карточки
 function createCard(cardTitleValue, cardImageLinkValue){
   const cardItem = cardTemplate.querySelector('.card').cloneNode(true);
-
   cardItem.querySelector('.card__title').textContent = cardTitleValue;
-  cardItem.querySelector('.card__image').src = cardImageLinkValue;
-  cardItem.querySelector('.card__image').alt = cardTitleValue;
   cardItem.querySelector('.card__heart').addEventListener('click', toggleLiked);
   cardItem.querySelector('.card__remove-button').addEventListener('click', removeCard);
-  cardItem.querySelector('.card__image').addEventListener('click', preview);
+  
+  const cardImage = cardItem.querySelector('.card__image');
+  cardImage.src = cardImageLinkValue;
+  cardImage.alt = cardTitleValue;
+  cardImage.addEventListener('click', preview);
   return cardItem;
 }
 
