@@ -191,4 +191,5 @@ function closePopupByClickOnOverlay(event) {
   }  
   closePopup();
 }
+
 popup.addEventListener('click', closePopupByClickOnOverlay);

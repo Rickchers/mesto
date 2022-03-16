@@ -9,7 +9,7 @@ function showError (formElement, inputElement, errorMessage, settings) {
   errorElement.classList.add(settings.errorClass);
 }
 
-function hideError (formElement, inputElement) {
+function hideError (formElement, inputElement, settings) {
   const errorElement = inputElement
     .closest(settings.formSectionSelector)
     .querySelector(settings.inputErrorClass);
@@ -29,7 +29,7 @@ function checkValidity(formElement, inputElement, settings) {
 
   } else {
 
-    hideError(formElement, inputElement);
+    hideError(formElement, inputElement, settings);
   }
 
 };
@@ -70,7 +70,7 @@ function setEventListeners(formElement, settings) {
   inputList.forEach(inputListIterator);
 };
 
-const myObject = {
+const settingsObject = {
   formSelector: '.form',
   formSectionSelector: '.form__section',
   inputSelector: '.popup__input',
@@ -99,4 +99,4 @@ function enableValidation (settings) {
   
 };
 
-enableValidation(myObject);
+enableValidation(settingsObject);
