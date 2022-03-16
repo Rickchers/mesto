@@ -36,13 +36,19 @@
 
     <div class="popup" id="editInfo">
       <div class="popup__container popup__container_form-type">
-        <form name="user-profile" class="popup__form" id="editInfoForm">
+        <form name="user-profile" class="form" id="editInfoForm" novalidate>
           <h2 class="popup__title">Редактировать профиль</h2>
           <fieldset class="popup__fieldset">
-            <input required type="text" id="username" value="" placeholder="" class="popup__input">
-            <input required type="text" id="userjob" value="" placeholder="" class="popup__input">
+            <section class="form__section">
+              <input required type="text" id="username" value="Введите ваше имя" placeholder="" class="popup__input" name = "user" minlength="2" maxlength="40">
+              <p class="form__input-error"></p>
+            </section>
+            <section class="form__section">
+              <input required type="text" id="userjob" value="Введите род ваших занятий" placeholder="" class="popup__input" name = "userjob" minlength="2" maxlength="200">
+              <p class="form__input-error"></p>
+            </section>
           </fieldset>
-          <button type="submit" class="popup__button">Сохранить</button>
+          <button type="submit" class="popup__button" id="popup__button">Сохранить</button>
         </form>
         <button class="popup__close-button fade-out"><img src="./images/Close_Icon.svg" class="popup__button-image" alt="кнопка закрытия формы"></button>
       </div>
@@ -50,11 +56,17 @@
     
     <div class="popup" id="addCard">
       <div class="popup__container popup__container_form-type">
-        <form class="popup__form" id="addCardForm">
+        <form class="form" id="addCardForm" novalidate>
           <h2 class="popup__title">Новое место</h2>
           <fieldset class="popup__fieldset">
-            <input required type="text" id="cardName" value="" placeholder="Название" class="popup__input">
-            <input required type="text" id="cardLink" value="" placeholder="Ссылка на картинку" class="popup__input">
+            <section class="form__section">
+              <input required id="cardName" value="" placeholder="Название" class="popup__input" name="Place"  minlength="2" maxlength="30">
+              <p class="form__input-error"></p>
+            </section>
+            <section class="form__section">
+              <input required type="url" id="cardLink" value="" placeholder="Ссылка на картинку" class="popup__input" name="link">
+              <p class="form__input-error">Введите адрес сайта</p>
+            </section>
           </fieldset>
           <button type="submit" class="popup__button" id="addCardSaveButton">Сохранить</button>
         </form>
@@ -87,6 +99,7 @@
   </template>
 
   <script src="./scripts/index.js"></script>
+  <script src="./scripts/validate.js"></script>
 </body>
 
 </html>

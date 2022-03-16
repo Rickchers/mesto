@@ -15,21 +15,21 @@ const cardLink = popupAddCard.querySelector('#cardLink');
 //поп-ап с картинкой
 const popupPreview = document.querySelector('#popup-preview');
 const closeIconPreview = popupPreview.querySelector('.popup__close-button');
+//картинка поп-апа
+const popupImage = document.querySelector('.popup__image');
+//подпись картинки поп-апа
+const popupFigcaption = document.querySelector('.popup__figcaption');
 
 //форма поп-апа "Редактировать профиль"
 const formEditProfile = popup.querySelector('#editInfoForm');
-
-
-
 
 //поля формы поп-апа "Редактировать профиль" в документе
 const formUserNameField = document.querySelector('#username');
 const formUserJobField = document.querySelector('#userjob');
 
-//картинка поп-апа
-const popupImage = document.querySelector('.popup__image');
-//подпись картинки поп-апа
-const popupFigcaption = document.querySelector('.popup__figcaption');
+
+
+
 
 
 //секция профиль
@@ -177,12 +177,14 @@ closeIconAddCardPopup.addEventListener('click', closePopup);
 //слушатель событий кнопки "сохранить" модального окна "добавить карточку"
 formAddCard.addEventListener('submit', saveAddCardFormSubmitHandler);
 
+document.addEventListener ('keydown', function (event) {
+  if (event.key == 'Escape') {
+    closePopup();
+  } else {
+    return;
+  }
+})
 
-
-
-
-
-/*
 function closePopupByClickOnOverlay(event) {
   if (event.target !== event.currentTarget) {
     return;
@@ -190,4 +192,3 @@ function closePopupByClickOnOverlay(event) {
   closePopup();
 }
 popup.addEventListener('click', closePopupByClickOnOverlay);
-*/
