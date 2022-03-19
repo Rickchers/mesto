@@ -3,7 +3,7 @@ function showError (formElement, inputElement, errorMessage, settings) {
   const errorElement = inputElement
     .closest(settings.formSectionSelector)
     .querySelector(settings.inputErrorClass);
-
+  inputElement.closest(settings.formSectionSelector).querySelector(settings.inputSelector).classList.add(settings.formSectionErrorClass);
 
   errorElement.textContent = errorMessage;
   errorElement.classList.add(settings.errorClass);
@@ -13,7 +13,7 @@ function hideError (formElement, inputElement, settings) {
   const errorElement = inputElement
     .closest(settings.formSectionSelector)
     .querySelector(settings.inputErrorClass);
-
+    inputElement.closest(settings.formSectionSelector).querySelector(settings.inputSelector).classList.remove(settings.formSectionErrorClass);
   errorElement.textContent = '';
 }
 
@@ -73,6 +73,7 @@ function setEventListeners(formElement, settings) {
 const settingsObject = {
   formSelector: '.form',
   formSectionSelector: '.form__section',
+  formSectionErrorClass: 'popup__input_error',
   inputSelector: '.popup__input',
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',

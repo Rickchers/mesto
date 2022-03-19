@@ -7,9 +7,9 @@
   <title>Mesto</title>
   <link rel="stylesheet" href="./pages/index.css">
 </head>
-
 <body class="page">
   <div class="root">
+    
     <header class="header">
       <img src="./images/mesto.svg" class="header__logo" alt="логотип Mesto Russia">
     </header>
@@ -41,11 +41,11 @@
           <fieldset class="popup__fieldset">
             <section class="form__section">
               <input required type="text" id="username" value="Введите ваше имя" placeholder="" class="popup__input" name = "user" minlength="2" maxlength="40">
-              <p class="form__input-error"></p>
+              <span class="form__input-error"></span>
             </section>
             <section class="form__section">
               <input required type="text" id="userjob" value="Введите род ваших занятий" placeholder="" class="popup__input" name = "userjob" minlength="2" maxlength="200">
-              <p class="form__input-error"></p>
+              <span class="form__input-error"></span>
             </section>
           </fieldset>
           <button type="submit" class="popup__button" id="popup__button">Сохранить</button>
@@ -61,11 +61,11 @@
           <fieldset class="popup__fieldset">
             <section class="form__section">
               <input required id="cardName" value="" placeholder="Название" class="popup__input" name="Place"  minlength="2" maxlength="30">
-              <p class="form__input-error"></p>
+              <span class="form__input-error"></span>
             </section>
             <section class="form__section">
               <input required type="url" id="cardLink" value="" placeholder="Ссылка на картинку" class="popup__input" name="link">
-              <p class="form__input-error">Введите адрес сайта</p>
+              <span class="form__input-error">Введите адрес сайта</span>
             </section>
           </fieldset>
           <button type="submit" class="popup__button" id="addCardSaveButton">Сохранить</button>

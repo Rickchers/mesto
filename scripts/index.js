@@ -105,8 +105,19 @@ function removeCard(event) {
   const itemElement = event.target.closest('.card');
   itemElement.remove();
 }
+
+
+function clearErrorMessages () {
+  const errorIntputs = document.querySelectorAll('.form__input-error_active');
+  errorIntputs.forEach((item) => {
+    item.textContent = '';
+    item.classList.remove('form__input-error_active');
+  });
+};
+
 //закрытие поп-апа
 function closePopup() {
+  clearErrorMessages ();
   document.querySelector('.popup_opened').classList.remove('popup_opened');
 };
 //открытие поп-апа
@@ -176,7 +187,7 @@ addCardButton.addEventListener('click', openAddCardPopup);
 closeIconAddCardPopup.addEventListener('click', closePopup);
 //слушатель событий кнопки "сохранить" модального окна "добавить карточку"
 formAddCard.addEventListener('submit', saveAddCardFormSubmitHandler);
-
+//слушатель событий на документ для закрытия поп-апа нажатием "escape"
 document.addEventListener ('keydown', function (event) {
   if (event.key == 'Escape') {
     closePopup();
@@ -185,11 +196,22 @@ document.addEventListener ('keydown', function (event) {
   }
 })
 
-function closePopupByClickOnOverlay(event) {
+
+
+//обработчик события "mousedown" на оверлее
+function closePopupByClickOnOverlay(event) {  
+  
   if (event.target !== event.currentTarget) {
     return;
   }  
   closePopup();
 }
+//функция "навешивавет" обработчики событий на все поп-апы
+function popupsEventSetter () {
+  const popups = document.querySelectorAll('.popup');
+  popups.forEach((item) => {
+    item.addEventListener('mousedown', closePopupByClickOnOverlay); 
+  });
+};
 
-popup.addEventListener('click', closePopupByClickOnOverlay);
+popupsEventSetter ();
