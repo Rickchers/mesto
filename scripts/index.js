@@ -113,6 +113,10 @@ function clearErrorMessages () {
     item.textContent = '';
     item.classList.remove('form__input-error_active');
   });
+  const errorInputsBorders = document.querySelectorAll('.popup__input_error');
+  errorInputsBorders.forEach((item) => {
+    item.classList.remove('popup__input_error');
+  });
 };
 
 //закрытие поп-апа
