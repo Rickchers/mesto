@@ -117,17 +117,24 @@ function clearErrorMessages () {
   errorInputsBorders.forEach((item) => {
     item.classList.remove('popup__input_error');
   });
+  const submitButton = document.querySelector('.popup__button');
+  submitButton.classList.add('popup__button_disabled');
+};
+
+//открытие поп-апа
+function openPopup(popup) {
+  popup.classList.add('popup_opened');  
+  //навесили обработчик событий на документ для закрытия поп-апа нажатием "escape"
+  document.addEventListener ('keydown', closeByEscape);
 };
 
 //закрытие поп-апа
-function closePopup() {
-  clearErrorMessages ();
-  document.querySelector('.popup_opened').classList.remove('popup_opened');
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  //удалили обработчик событий на документ для закрытия поп-апа нажатием "escape"
+  document.removeEventListener ('keydown', closeByEscape);
 };
-//открытие поп-апа
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-};
+
 
 //функция обработчик события submit формы поп-апа редактирования профиля
 function saveProfileFormSubmitHandler(event) {
@@ -151,7 +158,7 @@ function saveAddCardFormSubmitHandler(event) {
 function openEditInfoPopup() {
   formUserNameField.value = userName.textContent;
   formUserJobField.value = userJob.textContent;
-  
+  clearErrorMessages (); 
   openPopup(popup);
 }
 
@@ -159,6 +166,10 @@ function openEditInfoPopup() {
 function openAddCardPopup() {
   cardName.value = '';
   cardLink.value = '';
+  const submitButton = popupAddCard.querySelector('.popup__button');
+  submitButton.classList.add('popup__button_disabled');
+  submitButton.setAttribute('disabled', true);
+  clearErrorMessages ();  
   openPopup(popupAddCard);
 }
 
@@ -179,6 +190,7 @@ closeIconPreview.addEventListener('click', closePopup);
 
 //слушатель событий кнопки "редактировать профиль"
 editProfileButton.addEventListener('click', openEditInfoPopup);
+
 //слушатель событий кнопки "закрыть" модального окна "редактировать профиль"
 closeIconEditProfile.addEventListener('click', closePopup);
 //слушатель событий кнопки "сохранить" модального окна "редактировать профиль"
@@ -187,28 +199,31 @@ formEditProfile.addEventListener('submit', saveProfileFormSubmitHandler);
 
 //слушатель событий кнопки "добавить карточку"
 addCardButton.addEventListener('click', openAddCardPopup);
+
 //слушатель событий кнопки "закрыть" модального окна "добавить карточку"
 closeIconAddCardPopup.addEventListener('click', closePopup);
 //слушатель событий кнопки "сохранить" модального окна "добавить карточку"
 formAddCard.addEventListener('submit', saveAddCardFormSubmitHandler);
-//слушатель событий на документ для закрытия поп-апа нажатием "escape"
-document.addEventListener ('keydown', function (event) {
-  if (event.key == 'Escape') {
-    closePopup();
+
+
+//обработчик события "escape"
+function closeByEscape (event) {
+  if (event.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
   } else {
     return;
   }
-})
-
+}
 
 
 //обработчик события "mousedown" на оверлее
 function closePopupByClickOnOverlay(event) {  
-  
+  const openedPopup = document.querySelector('.popup_opened');
   if (event.target !== event.currentTarget) {
     return;
   }  
-  closePopup();
+  closePopup(openedPopup);
 }
 //функция "навешивавет" обработчики событий на все поп-апы
 function popupsEventSetter () {

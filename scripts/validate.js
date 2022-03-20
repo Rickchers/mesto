@@ -17,6 +17,7 @@ function hideError (formElement, inputElement, settings) {
   errorElement.textContent = '';
 }
 
+
 function checkValidity(formElement, inputElement, settings) {
   const isInputNotValid = !inputElement.validity.valid;
   
