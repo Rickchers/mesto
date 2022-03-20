@@ -1,10 +1,9 @@
 //поп-ап с формой
 const popup = document.querySelector('#editInfo');
-const closeIconEditProfile = popup.querySelector('.popup__close-button');
 
 //поп-ап добавление "Добавить карточку"
 const popupAddCard = document.querySelector('#addCard');
-const closeIconAddCardPopup = popupAddCard.querySelector('.popup__close-button');
+
 //форма поп-апа "Добавить карточку"
 const formAddCard = popupAddCard.querySelector('#addCardForm')
 //поле ввода имени карточки
@@ -106,19 +105,21 @@ function removeCard(event) {
   itemElement.remove();
 }
 
-
-function clearErrorMessages () {
-  const errorIntputs = document.querySelectorAll('.form__input-error_active');
+//сброс полей с ошибками и дизабл кнопки сабмит
+function clearErrorMessages (popup) {
+  const errorIntputs = popup.querySelectorAll('.form__input-error_active');
   errorIntputs.forEach((item) => {
     item.textContent = '';
     item.classList.remove('form__input-error_active');
   });
-  const errorInputsBorders = document.querySelectorAll('.popup__input_error');
+  const errorInputsBorders = popup.querySelectorAll('.popup__input_error');
   errorInputsBorders.forEach((item) => {
     item.classList.remove('popup__input_error');
   });
-  const submitButton = document.querySelector('.popup__button');
+  const submitButton = popup.querySelector('.popup__button');
   submitButton.classList.add('popup__button_disabled');
+  submitButton.setAttribute('disabled', true);
+
 };
 
 //открытие поп-апа
@@ -143,7 +144,7 @@ function saveProfileFormSubmitHandler(event) {
   //записываются значения полей ввода формы, заполненные пользователем
   userName.textContent = formUserNameField.value;
   userJob.textContent = formUserJobField.value;  
-  closePopup();
+  closePopup(popup);
 }
 
 //функция обработчик события submit формы поп-апа добавления карточки
@@ -158,7 +159,7 @@ function saveAddCardFormSubmitHandler(event) {
 function openEditInfoPopup() {
   formUserNameField.value = userName.textContent;
   formUserJobField.value = userJob.textContent;
-  clearErrorMessages (); 
+  clearErrorMessages (popup); 
   openPopup(popup);
 }
 
@@ -169,7 +170,7 @@ function openAddCardPopup() {
   const submitButton = popupAddCard.querySelector('.popup__button');
   submitButton.classList.add('popup__button_disabled');
   submitButton.setAttribute('disabled', true);
-  clearErrorMessages ();  
+  clearErrorMessages (popup);  
   openPopup(popupAddCard);
 }
 
@@ -184,15 +185,9 @@ function preview(event) {
 
 //eventListeners
 
-//слушатель событий кнопки "закрыть" модального окна с картинкой
-closeIconPreview.addEventListener('click', closePopup);
-
-
 //слушатель событий кнопки "редактировать профиль"
 editProfileButton.addEventListener('click', openEditInfoPopup);
 
-//слушатель событий кнопки "закрыть" модального окна "редактировать профиль"
-closeIconEditProfile.addEventListener('click', closePopup);
 //слушатель событий кнопки "сохранить" модального окна "редактировать профиль"
 formEditProfile.addEventListener('submit', saveProfileFormSubmitHandler);
 
@@ -200,8 +195,6 @@ formEditProfile.addEventListener('submit', saveProfileFormSubmitHandler);
 //слушатель событий кнопки "добавить карточку"
 addCardButton.addEventListener('click', openAddCardPopup);
 
-//слушатель событий кнопки "закрыть" модального окна "добавить карточку"
-closeIconAddCardPopup.addEventListener('click', closePopup);
 //слушатель событий кнопки "сохранить" модального окна "добавить карточку"
 formAddCard.addEventListener('submit', saveAddCardFormSubmitHandler);
 
@@ -216,7 +209,39 @@ function closeByEscape (event) {
   }
 }
 
+const popups = document.querySelectorAll('.popup');
 
+popups.forEach((popup) => {
+    
+    popup.addEventListener('mousedown', (evt) => {
+        
+        if (evt.target.classList.contains('popup_opened')) {
+            closePopup(popup);
+        }
+        if (evt.target.classList.contains('popup__button-image')) {
+          closePopup(popup);
+        }
+        if (evt.target == evt.currentTarget) {
+          closePopup(popup);
+        }  
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 //обработчик события "mousedown" на оверлее
 function closePopupByClickOnOverlay(event) {  
   const openedPopup = document.querySelector('.popup_opened');
@@ -234,3 +259,4 @@ function popupsEventSetter () {
 };
 
 popupsEventSetter ();
+*/
