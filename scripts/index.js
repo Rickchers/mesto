@@ -1,3 +1,19 @@
+import { Card } from './Card.js';
+import { FormValidator } from './FormValidator.js';
+
+const settingsObject = {
+  formSelector: '.form',
+  formSectionSelector: '.form__section',
+  formSectionErrorClass: 'popup__input_error',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: '.form__input-error',
+  errorClass: 'form__input-error_active'
+}
+
+
+const popups = document.querySelectorAll('.popup');
 //поп-ап с формой
 const popup = document.querySelector('#editInfo');
 
@@ -42,11 +58,10 @@ const userJob = profile.querySelector('.profile__subtitle');
 //кнопка "редактировать профиль"
 const editProfileButton = profile.querySelector('.profile__edit-button');
 
-
-//шаблон карточки
-const cardTemplate = document.querySelector('#card').content;
-//элемент шаблона карточки
+//узел документа, содержащий карточки
 const cards = document.querySelector('.cards');
+
+
 //массив объектов карточек
 const initialCards = [
   {
@@ -74,25 +89,16 @@ const initialCards = [
     link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
   }
 ];
-//для всех елементов массива применяется функция добавления на страницу
+
+
 initialCards.forEach((item) => {
-  cards.append(createCard(item.name, item.link));
+  // Создаём экземпляр карточки
+  const card = new Card(item.name, item.link);
+  // Создаём карточку и возвращаем наружу
+  const cardElement = card.generateCard();
+  // Добавляем карточку в DOM
+  cards.append(cardElement);
 });
-
-
-//функция создания карточки
-function createCard(cardTitleValue, cardImageLinkValue){
-  const cardItem = cardTemplate.querySelector('.card').cloneNode(true);
-  cardItem.querySelector('.card__title').textContent = cardTitleValue;
-  cardItem.querySelector('.card__heart').addEventListener('click', toggleLiked);
-  cardItem.querySelector('.card__remove-button').addEventListener('click', removeCard);
-  
-  const cardImage = cardItem.querySelector('.card__image');
-  cardImage.src = cardImageLinkValue;
-  cardImage.alt = cardTitleValue;
-  cardImage.addEventListener('click', preview);
-  return cardItem;
-}
 
 //переключение состояний значка "лайк"
 function toggleLiked(event) {
@@ -108,6 +114,7 @@ function removeCard(event) {
 //сброс полей с ошибками и дизабл кнопки сабмит
 function clearErrorMessages (popup) {
   const errorIntputs = popup.querySelectorAll('.form__input-error_active');
+  
   errorIntputs.forEach((item) => {
     item.textContent = '';
     item.classList.remove('form__input-error_active');
@@ -152,7 +159,16 @@ function saveAddCardFormSubmitHandler(event) {
   event.preventDefault();
   curentInputValue = cardName.value;
   curentInputLinkValue = cardLink.value;
-  cards.prepend(createCard(curentInputValue, curentInputLinkValue));
+
+  // Создаём экземпляр карточки
+  const card = new Card(curentInputValue, curentInputLinkValue);
+  // Создаём карточку и возвращаем наружу
+  const cardElement = card.generateCard();
+  // Добавляем карточку в DOM
+  cards.prepend(cardElement);
+
+
+  //cards.prepend(createCard(curentInputValue, curentInputLinkValue));
   closePopup(popupAddCard);
 }
 //функция колл-бэк на событие 'click' кнопки "редактировать профиль"
@@ -170,7 +186,7 @@ function openAddCardPopup() {
   const submitButton = popupAddCard.querySelector('.popup__button');
   submitButton.classList.add('popup__button_disabled');
   submitButton.setAttribute('disabled', true);
-  clearErrorMessages (popup);  
+  clearErrorMessages (popupAddCard);  
   openPopup(popupAddCard);
 }
 
@@ -209,7 +225,7 @@ function closeByEscape (event) {
   }
 }
 
-const popups = document.querySelectorAll('.popup');
+
 
 popups.forEach((popup) => {
     
@@ -228,35 +244,11 @@ popups.forEach((popup) => {
 })
 
 
+const formList = Array.from(document.querySelectorAll(settingsObject.formSelector));
 
+formList.forEach((item)=>{
+  const formValid = new FormValidator(settingsObject, item);
+  formValid.enableValidation();
+});
 
-
-
-
-
-
-
-
-
-
-
-
-/*
-//обработчик события "mousedown" на оверлее
-function closePopupByClickOnOverlay(event) {  
-  const openedPopup = document.querySelector('.popup_opened');
-  if (event.target !== event.currentTarget) {
-    return;
-  }  
-  closePopup(openedPopup);
-}
-//функция "навешивавет" обработчики событий на все поп-апы
-function popupsEventSetter () {
-  const popups = document.querySelectorAll('.popup');
-  popups.forEach((item) => {
-    item.addEventListener('mousedown', closePopupByClickOnOverlay); 
-  });
-};
-
-popupsEventSetter ();
-*/
+export {preview, toggleLiked, removeCard};
