@@ -15,7 +15,7 @@ const settingsObject = {
 
 const popups = document.querySelectorAll('.popup');
 //поп-ап с формой
-const popup = document.querySelector('#editInfo');
+const popupEditInfo = document.querySelector('#editInfo');
 
 //поп-ап добавление "Добавить карточку"
 const popupAddCard = document.querySelector('#addCard');
@@ -36,7 +36,7 @@ const popupImage = document.querySelector('.popup__image');
 const popupFigcaption = document.querySelector('.popup__figcaption');
 
 //форма поп-апа "Редактировать профиль"
-const formEditProfile = popup.querySelector('#editInfoForm');
+const formEditProfile = popupEditInfo.querySelector('#editInfoForm');
 
 //поля формы поп-апа "Редактировать профиль" в документе
 const formUserNameField = document.querySelector('#username');
@@ -100,16 +100,8 @@ initialCards.forEach((item) => {
   cards.append(cardElement);
 });
 
-//переключение состояний значка "лайк"
-function toggleLiked(event) {
-  const itemElement = event.target;
-  itemElement.classList.toggle('card__heart_active');
-}
-//удаление карточки
-function removeCard(event) {
-  const itemElement = event.target.closest('.card');
-  itemElement.remove();
-}
+
+
 
 //сброс полей с ошибками и дизабл кнопки сабмит
 function clearErrorMessages (popup) {
@@ -151,14 +143,14 @@ function saveProfileFormSubmitHandler(event) {
   //записываются значения полей ввода формы, заполненные пользователем
   userName.textContent = formUserNameField.value;
   userJob.textContent = formUserJobField.value;  
-  closePopup(popup);
+  closePopup(popupEditInfo);
 }
 
 //функция обработчик события submit формы поп-апа добавления карточки
 function saveAddCardFormSubmitHandler(event) {
   event.preventDefault();
-  curentInputValue = cardName.value;
-  curentInputLinkValue = cardLink.value;
+  const curentInputValue = cardName.value;
+  const curentInputLinkValue = cardLink.value;
 
   // Создаём экземпляр карточки
   const card = new Card(curentInputValue, curentInputLinkValue);
@@ -167,16 +159,14 @@ function saveAddCardFormSubmitHandler(event) {
   // Добавляем карточку в DOM
   cards.prepend(cardElement);
 
-
-  //cards.prepend(createCard(curentInputValue, curentInputLinkValue));
   closePopup(popupAddCard);
 }
 //функция колл-бэк на событие 'click' кнопки "редактировать профиль"
 function openEditInfoPopup() {
   formUserNameField.value = userName.textContent;
   formUserJobField.value = userJob.textContent;
-  clearErrorMessages (popup); 
-  openPopup(popup);
+  clearErrorMessages (popupEditInfo); 
+  openPopup(popupEditInfo);
 }
 
 //функция колл-бэк на событие 'click' кнопки "добавить карточку"
@@ -190,13 +180,7 @@ function openAddCardPopup() {
   openPopup(popupAddCard);
 }
 
-//создание поп-апа с картинкой
-function preview(event) {
-  popupFigcaption.textContent = event.target.closest('.card').querySelector('.card__title').textContent;
-  popupImage.src = event.target.closest('.card__image').src;
-  popupImage.alt = event.target.closest('.card__image').alt;
-  openPopup(popupPreview);
-}
+
 
 
 //eventListeners
@@ -244,11 +228,16 @@ popups.forEach((popup) => {
 })
 
 
-const formList = Array.from(document.querySelectorAll(settingsObject.formSelector));
+const profileValidation = new FormValidator(settingsObject, formEditProfile);
+const newCardValidation = new FormValidator(settingsObject, formAddCard);
+profileValidation.enableValidation();
+newCardValidation.enableValidation();  
 
-formList.forEach((item)=>{
-  const formValid = new FormValidator(settingsObject, item);
-  formValid.enableValidation();
-});
+// const formList = Array.from(document.querySelectorAll(settingsObject.formSelector));
 
-export {preview, toggleLiked, removeCard};
+// formList.forEach((item)=>{
+//   const formValid = new FormValidator(settingsObject, item);
+//   formValid.enableValidation();
+// });
+
+export {openPopup, popupPreview, popupFigcaption, popupImage};

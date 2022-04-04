@@ -1,4 +1,4 @@
-import {preview, toggleLiked, removeCard} from './index.js';
+import {openPopup, popupPreview, popupFigcaption, popupImage} from './index.js';
 
 class Card {
   constructor(name, image) {
@@ -16,16 +16,38 @@ class Card {
     return cardElement;
   }
 
+  //переключение состояний значка "лайк"
+  _handleToggleLiked(event) {
+    const itemElement = event.target;
+    itemElement.classList.toggle('card__heart_active');
+  }
+
+  //создание поп-апа с картинкой
+  _handlePreview(event) {
+    popupFigcaption.textContent = event.target.closest('.card').querySelector('.card__title').textContent;
+    popupImage.src = event.target.closest('.card__image').src;
+    popupImage.alt = event.target.closest('.card__image').alt;
+    openPopup(popupPreview);
+  }
+
+  //удаление карточки
+  _handleRemoveCard(event) {
+    const itemElement = event.target.closest('.card');
+    itemElement.remove();
+  }
+
   generateCard() {
     this._element = this._getTemplate();
 
     this._element.querySelector('.card__title').textContent = this._name;
-    this._element.querySelector('.card__image').src = this._image;
-    this._element.querySelector('.card__image').alt = this._name;
     
-    this._element.addEventListener('click', preview);
-    this._element.querySelector('.card__heart').addEventListener('click', toggleLiked);
-    this._element.querySelector('.card__remove-button').addEventListener('click', removeCard);
+    const cardImage = this._element.querySelector('.card__image');
+    cardImage.src = this._image;
+    cardImage.alt = this._name;
+    cardImage.addEventListener('click', this._handlePreview);
+
+    this._element.querySelector('.card__heart').addEventListener('click', this._handleToggleLiked);
+    this._element.querySelector('.card__remove-button').addEventListener('click', this._handleRemoveCard);
 
     return this._element;
   }
