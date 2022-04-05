@@ -92,15 +92,15 @@ const initialCards = [
 
 
 initialCards.forEach((item) => {
-  // Создаём экземпляр карточки
-  const card = new Card(item.name, item.link);
-  // Создаём карточку и возвращаем наружу
-  const cardElement = card.generateCard();
-  // Добавляем карточку в DOM
-  cards.append(cardElement);
+  cards.append(createCardElement(item.name, item.link));
 });
 
-
+//функция создания карточки
+function createCardElement (cardTitle, cardImage) {
+  const card = new Card(cardTitle, cardImage);
+  const cardElement = card.generateCard();
+  return cardElement;
+}
 
 
 //сброс полей с ошибками и дизабл кнопки сабмит
@@ -120,6 +120,8 @@ function clearErrorMessages (popup) {
   submitButton.setAttribute('disabled', true);
 
 };
+
+
 
 //открытие поп-апа
 function openPopup(popup) {
@@ -151,14 +153,7 @@ function saveAddCardFormSubmitHandler(event) {
   event.preventDefault();
   const curentInputValue = cardName.value;
   const curentInputLinkValue = cardLink.value;
-
-  // Создаём экземпляр карточки
-  const card = new Card(curentInputValue, curentInputLinkValue);
-  // Создаём карточку и возвращаем наружу
-  const cardElement = card.generateCard();
-  // Добавляем карточку в DOM
-  cards.prepend(cardElement);
-
+  cards.prepend(createCardElement(curentInputValue, curentInputLinkValue));
   closePopup(popupAddCard);
 }
 //функция колл-бэк на событие 'click' кнопки "редактировать профиль"
