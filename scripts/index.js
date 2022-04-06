@@ -102,27 +102,6 @@ function createCardElement (cardTitle, cardImage) {
   return cardElement;
 }
 
-
-//сброс полей с ошибками и дизабл кнопки сабмит
-function clearErrorMessages (popup) {
-  const errorIntputs = popup.querySelectorAll('.form__input-error_active');
-  
-  errorIntputs.forEach((item) => {
-    item.textContent = '';
-    item.classList.remove('form__input-error_active');
-  });
-  const errorInputsBorders = popup.querySelectorAll('.popup__input_error');
-  errorInputsBorders.forEach((item) => {
-    item.classList.remove('popup__input_error');
-  });
-  const submitButton = popup.querySelector('.popup__button');
-  submitButton.classList.add('popup__button_disabled');
-  submitButton.setAttribute('disabled', true);
-
-};
-
-
-
 //открытие поп-апа
 function openPopup(popup) {
   popup.classList.add('popup_opened');  
@@ -160,7 +139,10 @@ function saveAddCardFormSubmitHandler(event) {
 function openEditInfoPopup() {
   formUserNameField.value = userName.textContent;
   formUserJobField.value = userJob.textContent;
-  clearErrorMessages (popupEditInfo); 
+  
+  //изменение состояния объекта валидации формы: очистка полей и дизабл кнопки сабмит
+  profileValidation.clearErrorMessages(popupEditInfo);
+  
   openPopup(popupEditInfo);
 }
 
@@ -168,10 +150,9 @@ function openEditInfoPopup() {
 function openAddCardPopup() {
   cardName.value = '';
   cardLink.value = '';
-  const submitButton = popupAddCard.querySelector('.popup__button');
-  submitButton.classList.add('popup__button_disabled');
-  submitButton.setAttribute('disabled', true);
-  clearErrorMessages (popupAddCard);  
+  //изменение состояния объекта валидации формы: очистка полей и дизабл кнопки сабмит
+  newCardValidation.clearErrorMessages(popupAddCard);
+   
   openPopup(popupAddCard);
 }
 
@@ -227,12 +208,5 @@ const profileValidation = new FormValidator(settingsObject, formEditProfile);
 const newCardValidation = new FormValidator(settingsObject, formAddCard);
 profileValidation.enableValidation();
 newCardValidation.enableValidation();  
-
-// const formList = Array.from(document.querySelectorAll(settingsObject.formSelector));
-
-// formList.forEach((item)=>{
-//   const formValid = new FormValidator(settingsObject, item);
-//   formValid.enableValidation();
-// });
 
 export {openPopup, popupPreview, popupFigcaption, popupImage};

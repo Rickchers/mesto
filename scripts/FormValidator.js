@@ -1,31 +1,56 @@
-
-
 class FormValidator {
+
+
   constructor (settings,formElement) {
     this._settings = settings;
     this._formElement = formElement;
     this._submitButtonElement = this._formElement.querySelector(this._settings.submitButtonSelector);
     this._inputList = this._formElement.querySelectorAll(this._settings.inputSelector);
+
+  }
+
+  _disableButton (button) {
+    button.classList.add(this._settings.inactiveButtonClass);
+    button.setAttribute('disabled', true);
   }
   
+  clearErrorMessages (popup) {
 
+    const errorIntputs = popup.querySelectorAll('.form__input-error_active');
 
-  _showError (/*formElement, */inputElement, errorMessage) {
+    errorIntputs.forEach((item) => {
+      item.textContent = '';
+      item.classList.remove(this._settings.errorClass);
+    });
+
+    const errorInputsBorders = popup.querySelectorAll('.popup__input_error');
+    
+    errorInputsBorders.forEach((item) => {
+      item.classList.remove(this._settings.formSectionErrorClass);
+    });
+    
+    this._disableButton(this._submitButtonElement);
+
+  }
+
+  _showError (inputElement, errorMessage) {
   
     const errorElement = inputElement
       .closest(this._settings.formSectionSelector)
       .querySelector(this._settings.inputErrorClass);
-    inputElement.closest(this._settings.formSectionSelector).querySelector(this._settings.inputSelector).classList.add(this._settings.formSectionErrorClass);
+
+    inputElement.classList.add(this._settings.formSectionErrorClass);
   
     errorElement.textContent = errorMessage;
     errorElement.classList.add(this._settings.errorClass);
   }
   
-  _hideError (/*formElement, */inputElement) {
+  _hideError (inputElement) {
     const errorElement = inputElement
       .closest(this._settings.formSectionSelector)
       .querySelector(this._settings.inputErrorClass);
-      inputElement.closest(this._settings.formSectionSelector).querySelector(this._settings.inputSelector).classList.remove(this._settings.formSectionErrorClass);
+      
+    inputElement.classList.remove(this._settings.formSectionErrorClass);
     errorElement.textContent = '';
   }
 
@@ -37,11 +62,11 @@ class FormValidator {
       const errorMessage = inputElement.validationMessage;
   
   
-      this._showError(/*this._formElement, */inputElement, errorMessage);
+      this._showError(inputElement, errorMessage);
   
     } else {
   
-      this._hideError(/*this._formElement, */inputElement);
+      this._hideError(inputElement);
     }
   
   };
@@ -67,10 +92,7 @@ class FormValidator {
     this._formElement.addEventListener('submit', (event) => {
       event.preventDefault();
     });
-    
-    //const inputList = this._formElement.querySelectorAll(this._settings.inputSelector);
-    //const submitButtonElement = this._formElement.querySelector(this._settings.submitButtonSelector);
-    
+
     const inputListIterator = (inputElement) => {
       const handleInput = (event) => {
         this._checkValidity(inputElement);
