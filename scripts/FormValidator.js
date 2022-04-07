@@ -16,17 +16,8 @@ class FormValidator {
   
   clearErrorMessages (popup) {
 
-    const errorIntputs = popup.querySelectorAll('.form__input-error_active');
-
-    errorIntputs.forEach((item) => {
-      item.textContent = '';
-      item.classList.remove(this._settings.errorClass);
-    });
-
-    const errorInputsBorders = popup.querySelectorAll('.popup__input_error');
-    
-    errorInputsBorders.forEach((item) => {
-      item.classList.remove(this._settings.formSectionErrorClass);
+    this._inputList.forEach((item) => {
+      this._hideError(item);
     });
     
     this._disableButton(this._submitButtonElement);

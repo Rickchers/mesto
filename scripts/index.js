@@ -140,18 +140,20 @@ function openEditInfoPopup() {
   formUserNameField.value = userName.textContent;
   formUserJobField.value = userJob.textContent;
   
-  //изменение состояния объекта валидации формы: очистка полей и дизабл кнопки сабмит
-  profileValidation.clearErrorMessages(popupEditInfo);
+  //изменение состояния объекта валидации формы: очистка полей span и дизабл кнопки сабмит
+  profileValidation.clearErrorMessages();
   
   openPopup(popupEditInfo);
 }
 
 //функция колл-бэк на событие 'click' кнопки "добавить карточку"
 function openAddCardPopup() {
+
   cardName.value = '';
   cardLink.value = '';
-  //изменение состояния объекта валидации формы: очистка полей и дизабл кнопки сабмит
-  newCardValidation.clearErrorMessages(popupAddCard);
+  
+  //изменение состояния объекта валидации формы: очистка полей span и дизабл кнопки сабмит
+  newCardValidation.clearErrorMessages();
    
   openPopup(popupAddCard);
 }
