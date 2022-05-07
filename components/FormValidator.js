@@ -14,7 +14,7 @@ class FormValidator {
     button.setAttribute('disabled', true);
   }
   
-  clearErrorMessages (popup) {
+  clearErrorMessages () {
 
     this._inputList.forEach((item) => {
       this._hideError(item);
