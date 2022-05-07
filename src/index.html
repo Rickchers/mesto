@@ -5,25 +5,37 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mesto</title>
-  <link rel="stylesheet" href="./pages/index.css">
+
 </head>
 <body class="page">
   <div class="root">
     
     <header class="header">
-      <img src="./images/mesto.svg" class="header__logo" alt="логотип Mesto Russia">
+      <img src="<%=require('./images/mesto.svg')%>" class="header__logo" alt="логотип Mesto Russia">
     </header>
     <main>
       <section class="profile">
-        <img src="./images/custo.jpg" class="profile__avatar" alt="аватар">
+        <img src="<%=require('./images/custo.jpg')%>" class="profile__avatar" alt="аватар">
         <div class="profile__wrapper">
           <div class="profile__info">
             <h1 class="profile__title">Жак-Ив Кусто</h1>
             <p class="profile__subtitle">Исследователь океана</p>
           </div>
-          <button type="button" class="profile__edit-button fade-out"><img class="profile__button-image" src="./images/Edit_Button.svg" alt="кнопка редактирования профиля"></button>
+          <button
+            type="button"
+            class="profile__edit-button fade-out">
+            <img class="profile__button-image"
+              src="<%=require('./images/Edit_Button.svg')%>"
+            alt="кнопка редактирования профиля">
+          </button>
         </div>
-        <button type="button" class="profile__add-button fade-out"><img class="profile__add-button-image" src="./images/cross.svg" alt="кнопка добавить"></button>
+        <button
+          type="button"
+          class="profile__add-button fade-out">
+          <img class="profile__add-button-image"
+            src="<%=require('./images/cross.svg')%>"
+          alt="кнопка добавить">
+        </button>
       </section>
 
       <section class="cards" aria-label="фотогалерея">
@@ -55,7 +67,12 @@
 
           <button type="submit" class="popup__button" id="popup__button">Сохранить</button>
         </form>
-        <button class="popup__close-button fade-out"><img src="./images/Close_Icon.svg" class="popup__button-image" alt="кнопка закрытия формы"></button>
+        <button
+          class="popup__close-button fade-out">
+          <img src="<%=require('./images/Close_Icon.svg')%>"
+          class="popup__button-image"
+          alt="кнопка закрытия формы">
+        </button>
       </div>
     </div>
     
@@ -80,7 +97,12 @@
 
           <button type="submit" class="popup__button" id="addCardSaveButton">Сохранить</button>
         </form>
-        <button class="popup__close-button fade-out"><img src="./images/Close_Icon.svg" class="popup__button-image" alt="кнопка закрытия формы"></button>
+        <button
+          class="popup__close-button fade-out">
+          <img src="<%=require('./images/Close_Icon.svg')%>"
+            class="popup__button-image"
+            alt="кнопка закрытия формы">
+        </button>
       </div>
     </div>
 
@@ -88,7 +110,12 @@
     <div class="popup" id="popup-preview">
       <figure class="popup__container">
         <img src="https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg" class="popup__image" alt="фотогалерея">
-        <button class="popup__close-button fade-out"><img src="./images/Close_Icon.svg" class="popup__button-image" alt="кнопка закрытия формы"></button>
+        <button
+          class="popup__close-button fade-out">
+          <img src="<%=require('./images/Close_Icon.svg')%>"
+            class="popup__button-image"
+            alt="кнопка закрытия формы">
+        </button>
         <figcaption class="popup__figcaption"></figcaption>
       </figure>
     </div>
@@ -104,13 +131,16 @@
         <h2 class="card__title"></h2>
         <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
       </div>
-      <button type="button" class="card__remove-button fade-out"><img class="card__button-image" src="./images/Trash.svg" alt="кнопка удалить карту"></button>
+      <button
+        type="button"
+        class="card__remove-button fade-out">
+        <img class="card__button-image"
+          src="<%=require('./images/Trash.svg')%>"
+          alt="кнопка удалить карту">
+      </button>
     </article>
   </template>
 
-  <script type="module" src="./pages/index.js"></script>
-  <script type="module" src="./components/FormValidator.js"></script>
-  <script type="module" src="./components/Card.js"></script>
 </body>
 
 </html>
