@@ -1,72 +1,46 @@
 import './index.css';
-
 import { Card } from '../components/Card.js';
-
 import { Section } from '../components/Section.js';
-
-
 import { Popup } from '../components/Popup.js';
-
 import {PopupWithForm} from '../components/PopupWithForm.js';
-
 import { PopupWithImage } from '../components/PopupWithImage.js';
-
 import { UserInfo } from '../components/UserInfo.js';
-
+import { FormValidator } from '../components/FormValidator.js';
 import {
   settingsObject,
-  popups,
-  popupEditInfo,
-  popupAddCard,
   formAddCard,
-  cardName,
-  cardLink,
-  popupPreview,
-  closeIconPreview,
-  popupImage,
-  popupFigcaption,
   formEditProfile,
   formUserNameField,
   formUserJobField,
-  profile,
   addCardButton,
   userName,
   userJob,
   editProfileButton,
-  cards,
   initialCards,
-
 } from '../utils/constants.js';
-
-import { FormValidator } from '../components/FormValidator.js';
-
-
 
 const cardList = new Section({
   items: initialCards,
   renderer: createCardElement,
-}, cards);
+}, '.cards');
 
 cardList.renderItems();
 
-
 //функция создания карточки
-function createCardElement (cardTitle, cardImage) {
-  const card = new Card(cardTitle, cardImage, handleCardClick);
+function createCardElement (cardTitle, cardImage) {  
+  const card = new Card(cardTitle, cardImage, handleCardClick, '#card');
   const cardElement = card.generateCard();
   return cardElement;
 }
 
-//=========================================================================================
-
 //экземпляр "Редактировать профиль" класса PopupWithForm 
-const popupEditProfile = new PopupWithForm(popupEditInfo, saveProfileFormSubmitHandler);
+const popupEditProfile = new PopupWithForm('#editInfo', saveProfileFormSubmitHandler);
 
 //экземпляр "Добавить карточку" класса PopupWithForm 
-const popupAddProfile = new PopupWithForm(popupAddCard, saveAddCardFormSubmitHandler);
+const popupAddProfile = new PopupWithForm('#addCard', saveAddCardFormSubmitHandler);
 
 //экземпляр "Поп-апа с картинкой" класса PopupWithImage 
-const myPopupWithImage = new PopupWithImage(popupPreview);
+const myPopupWithImage = new PopupWithImage('#popup-preview');
 
 //экземпляр класса UserInfo 
 const ProfileUserInfo = new UserInfo ({
@@ -74,37 +48,28 @@ const ProfileUserInfo = new UserInfo ({
   job: userJob
 });
 
-//=========================================================================================
-
 //функция обработчик события submit формы поп-апа редактирования профиля
 function saveProfileFormSubmitHandler(formData) {
-
-  ProfileUserInfo.setUserInfo(formData.user, formData.userjob);
-  
+  ProfileUserInfo.setUserInfo(formData.user, formData.userjob);  
   popupEditProfile.close();  
-  
 }
 
 //функция обработчик события submit формы поп-апа добавления карточки
-function saveAddCardFormSubmitHandler(formData) {
-  
-  const curentInputValue = formData.cardname;
-  const curentInputLinkValue = formData.link;
-
-  cards.prepend(createCardElement(curentInputValue, curentInputLinkValue));
-  popupAddProfile.close();
-  
+function saveAddCardFormSubmitHandler(formData) {  
+  cardList.prependItem(formData);
+  popupAddProfile.close();  
 }
 
-
 //функция открывания поп-апа с картинкой
-function handleCardClick(){
-  myPopupWithImage.open();
+function handleCardClick(event){
+  const link = event.target.closest('.card__image').src;
+  const name = event.target.closest('.card').querySelector('.card__title').textContent;
+  const alt = event.target.closest('.card__image').alt;
+  myPopupWithImage.open(name, link, alt);
 }
 
 //функция колл-бэк на событие 'click' кнопки "редактировать профиль"
-function openEditInfoPopup() {
-  
+function openEditInfoPopup(){  
   const {userNameValue, userJobValue} = ProfileUserInfo.getUserInfo();
   
   //данные пользователя подставляются в форму при открытии
@@ -113,31 +78,19 @@ function openEditInfoPopup() {
 
   //изменение состояния объекта валидации формы: очистка полей span и дизабл кнопки сабмит
   profileValidation.clearErrorMessages();
-  popupEditProfile.open();
-  
-  
+  popupEditProfile.open();  
 }
 
 //функция колл-бэк на событие 'click' кнопки "добавить карточку"
-function openAddCardPopup() {
-
-  cardName.value = '';
-  cardLink.value = '';
-  
+function openAddCardPopup() {  
   //изменение состояния объекта валидации формы: очистка полей span и дизабл кнопки сабмит
   newCardValidation.clearErrorMessages();
-  popupAddProfile.open(); 
-
+  popupAddProfile.open();
 }
 
 //eventListeners
-
 //слушатель событий кнопки "редактировать профиль"
 editProfileButton.addEventListener('click', openEditInfoPopup);
-
-//слушатель событий кнопки "сохранить" модального окна "редактировать профиль"
-formEditProfile.addEventListener('submit', saveProfileFormSubmitHandler);
-
 
 //слушатель событий кнопки "добавить карточку"
 addCardButton.addEventListener('click', openAddCardPopup);
@@ -145,6 +98,4 @@ addCardButton.addEventListener('click', openAddCardPopup);
 const profileValidation = new FormValidator(settingsObject, formEditProfile);
 const newCardValidation = new FormValidator(settingsObject, formAddCard);
 profileValidation.enableValidation();
-newCardValidation.enableValidation();  
-
-export {popupPreview, popupFigcaption, popupImage, handleCardClick};
+newCardValidation.enableValidation();

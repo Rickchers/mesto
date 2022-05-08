@@ -6,21 +6,19 @@ class UserInfo {
     this._userJob = job;
   }
   
-  getUserInfo(){
-    
+  getUserInfo(){    
     const userNameValue = this._userName.textContent;
     const userJobValue = this._userJob.textContent;
 
     //возвращает объект с данными пользователя
-    return({userNameValue, userJobValue});
-    
+    return({userNameValue, userJobValue});    
   }
 
-  setUserInfo(NewUserNameValue, NewUserJobValue){
+  setUserInfo(newUserNameValue, newUserJobValue){
     //принимает новые данные пользователя (NewUserNameValue, NewUserJobValue)
     //и добавляет их на страницу
-    this._userName.textContent = NewUserNameValue;
-    this._userJob.textContent = NewUserJobValue;
+    this._userName.textContent = newUserNameValue;
+    this._userJob.textContent = newUserJobValue;
   }
 }
 
