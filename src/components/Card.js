@@ -39,7 +39,10 @@ class Card {
   }
 
   _setEventListeners(){
-    this._cardImage.addEventListener('click', this._handleCardClick);
+    this._cardImage.addEventListener('click', () => {
+      this._handleCardClick(this._name, this._image)
+    });
+
     this._element.querySelector('.card__heart').addEventListener('click', this._handleToggleLiked);
     this._element.querySelector('.card__remove-button').addEventListener('click', this._handleRemoveCard);
   }

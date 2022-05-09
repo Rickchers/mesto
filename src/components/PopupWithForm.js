@@ -30,9 +30,7 @@ class PopupWithForm extends Popup {
   }
 
   reset(){
-    this._inputList.forEach(input => {
-      input.value = '';
-    });  
+    this._form.reset();  
   }
 };
 

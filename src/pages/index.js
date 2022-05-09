@@ -43,14 +43,14 @@ const popupAddProfile = new PopupWithForm('#addCard', saveAddCardFormSubmitHandl
 const myPopupWithImage = new PopupWithImage('#popup-preview');
 
 //экземпляр класса UserInfo 
-const ProfileUserInfo = new UserInfo ({
+const profileUserInfo = new UserInfo ({
   user: userName,
   job: userJob
 });
 
 //функция обработчик события submit формы поп-апа редактирования профиля
 function saveProfileFormSubmitHandler(formData) {
-  ProfileUserInfo.setUserInfo(formData.user, formData.userjob);  
+  profileUserInfo.setUserInfo(formData.user, formData.userjob);  
   popupEditProfile.close();  
 }
 
@@ -60,17 +60,13 @@ function saveAddCardFormSubmitHandler(formData) {
   popupAddProfile.close();  
 }
 
-//функция открывания поп-апа с картинкой
-function handleCardClick(event){
-  const link = event.target.closest('.card__image').src;
-  const name = event.target.closest('.card').querySelector('.card__title').textContent;
-  const alt = event.target.closest('.card__image').alt;
-  myPopupWithImage.open(name, link, alt);
+function handleCardClick(name, link){
+  myPopupWithImage.open(name, link);
 }
 
 //функция колл-бэк на событие 'click' кнопки "редактировать профиль"
 function openEditInfoPopup(){  
-  const {userNameValue, userJobValue} = ProfileUserInfo.getUserInfo();
+  const {userNameValue, userJobValue} = profileUserInfo.getUserInfo();
   
   //данные пользователя подставляются в форму при открытии
   formUserNameField.value = userNameValue;
