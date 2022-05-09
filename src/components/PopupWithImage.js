@@ -12,6 +12,7 @@ class PopupWithImage extends Popup {
     super.open();
     this._popupFigcaption.textContent = name;
     this._popupImage.src = link;
+    this._popupImage.alt = name;
   }
 };
 
