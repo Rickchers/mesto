@@ -6,6 +6,7 @@ import {PopupWithForm} from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { UserInfo } from '../components/UserInfo.js';
 import { FormValidator } from '../components/FormValidator.js';
+import { Api } from '../components/Api.js';
 import {
   settingsObject,
   formAddCard,
@@ -14,49 +15,101 @@ import {
   formUserJobField,
   addCardButton,
   userName,
-  userJob,
+  userAbout,
   editProfileButton,
-  initialCards,
+  //initialCards,
+  cards,
+  likes
 } from '../utils/constants.js';
 
-const cardList = new Section({
-  items: initialCards,
-  renderer: createCardElement,
-}, '.cards');
+//===================================================================================
 
-cardList.renderItems();
+const api = new Api({
+    url: 'https://mesto.nomoreparties.co/v1/cohort-40/',
+    headers: {
+      authorization: 'c6cdad07-f201-4fb1-b931-468bd978f248'
+    }
+  }
+);
+
+api.getUserData()
+  .then((result) => {
+    profileUserInfo.setUserInfo(result.name, result.about);
+    document.querySelector('.profile__avatar').src = result.avatar;
+    
+  })
+
+
+api.getInitialCards()
+  .then((data) => {    
+    const cardList = new Section({
+
+      items: data,
+      renderer: createCardElement},
+      api,
+      '.cards');    
+    cardList.renderItems();
+  })
+
+
+
+//===================================================================================
+
+// const cardList = new Section({
+//   items: initialCards,
+//   renderer: createCardElement,
+// }, '.cards');
+
+// cardList.renderItems();
+
 
 //функция создания карточки
-function createCardElement (cardTitle, cardImage) {  
-  const card = new Card(cardTitle, cardImage, handleCardClick, '#card');
-  const cardElement = card.generateCard();
+function createCardElement (data, myID) {
+  const card = new Card(data, handleCardClick, '#card');
+  //const {userNameValue, userJobValue} = profileUserInfo.getUserInfo();  
+  const cardElement = card.generateCard(myID);
   return cardElement;
 }
 
-//экземпляр "Редактировать профиль" класса PopupWithForm 
+//экземпляр поп-ап объекта "Редактировать профиль" класса PopupWithForm 
 const popupEditProfile = new PopupWithForm('#editInfo', saveProfileFormSubmitHandler);
 
-//экземпляр "Добавить карточку" класса PopupWithForm 
+//экземпляр поп-ап объекта "Добавить карточку" класса PopupWithForm 
 const popupAddProfile = new PopupWithForm('#addCard', saveAddCardFormSubmitHandler);
 
-//экземпляр "Поп-апа с картинкой" класса PopupWithImage 
+//экземпляр объекта "Поп-ап с картинкой" класса PopupWithImage 
 const myPopupWithImage = new PopupWithImage('#popup-preview');
 
 //экземпляр класса UserInfo 
 const profileUserInfo = new UserInfo ({
   user: userName,
-  job: userJob
+  job: userAbout
 });
 
 //функция обработчик события submit формы поп-апа редактирования профиля
 function saveProfileFormSubmitHandler(formData) {
-  profileUserInfo.setUserInfo(formData.user, formData.userjob);  
+  api.setUserData(formData.name, formData.about)
+    .then((data) => {
+      profileUserInfo.setUserInfo(data.name, data.about);  
+    }); 
   popupEditProfile.close();  
 }
 
 //функция обработчик события submit формы поп-апа добавления карточки
 function saveAddCardFormSubmitHandler(formData) {  
-  cardList.prependItem(formData);
+  
+  //cardList.prependItem(formData);
+  api.postNewCard(formData)
+  .then((data) => {
+    api.getUserData()
+      .then((res) => {
+        const myID = res._id;
+        const cardElement = createCardElement (data, myID);
+        cards.prepend(cardElement);        
+      });
+  })
+  .catch((err) => console.log(err));
+  
   popupAddProfile.close();  
 }
 
@@ -79,6 +132,7 @@ function openEditInfoPopup(){
 
 //функция колл-бэк на событие 'click' кнопки "добавить карточку"
 function openAddCardPopup() {  
+ 
   //изменение состояния объекта валидации формы: очистка полей span и дизабл кнопки сабмит
   newCardValidation.clearErrorMessages();
   popupAddProfile.open();

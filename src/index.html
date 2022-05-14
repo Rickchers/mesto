@@ -18,8 +18,8 @@
         <img src="<%=require('./images/custo.jpg')%>" class="profile__avatar" alt="аватар">
         <div class="profile__wrapper">
           <div class="profile__info">
-            <h1 class="profile__title">Жак-Ив Кусто</h1>
-            <p class="profile__subtitle">Исследователь океана</p>
+            <h1 class="profile__title"></h1>
+            <p class="profile__subtitle"></p>
           </div>
           <button
             type="button"
@@ -60,7 +60,7 @@
                 value="Введите ваше имя"
                 placeholder=""
                 class="popup__input"
-                name = "user"
+                name = "name"
                 minlength="2"
                 maxlength="40">
               <span class="form__input-error"></span>
@@ -73,7 +73,7 @@
                 value="Введите род ваших занятий"
                 placeholder=""
                 class="popup__input"
-                name = "userjob"
+                name = "about"
                 minlength="2"
                 maxlength="200">
               <span class="form__input-error"></span>
@@ -159,6 +159,7 @@
       <div class="card__title-container">
         <h2 class="card__title"></h2>
         <button class="card__heart" aria-label="кнопка добавить в понравившиеся"></button>
+        <p class="likes">1</p>
       </div>
       <button
         type="button"

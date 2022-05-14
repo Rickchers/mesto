@@ -1,18 +1,24 @@
 class Card {
-  constructor(name, image, handleCardClick, templateSelector) {
-    this._name = name;
-    this._image = image;
+  constructor(data, handleCardClick, templateSelector) {
+    this._name = data.name;
+    this._image = data.link;
+
     this._handleCardClick = handleCardClick;
     this._templateSelector = templateSelector;
+    this._likes = data.likes;    
+    
+    this._owner = data.owner;
+
+    
+    
   }
 
-  _getTemplate() {
+   _getTemplate() {
     const cardElement = document
     .querySelector(this._templateSelector)
     .content
     .querySelector('.card')
     .cloneNode(true);
-
     return cardElement;
   }
 
@@ -28,13 +34,26 @@ class Card {
     itemElement.remove();
   }
 
-  generateCard() {
+  generateCard(myID) {
+     
     this._element = this._getTemplate();
     this._element.querySelector('.card__title').textContent = this._name;    
     this._cardImage = this._element.querySelector('.card__image');
     this._cardImage.src = this._image;
     this._cardImage.alt = this._name;    
-    this._setEventListeners(); 
+    this._setEventListeners();
+
+
+
+    //console.log(this._owner._id);
+    
+    
+    
+    if (this._owner._id !== myID){
+      this._element.querySelector('.card__remove-button').remove();
+    }
+    
+    this._element.querySelector('.likes').textContent = (this._likes).length; 
     return this._element;
   }
 

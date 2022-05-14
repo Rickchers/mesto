@@ -1,26 +1,41 @@
 class Section {
   
-  constructor({ items, renderer }, containerSelector) {
+  constructor({ items, renderer }, api, containerSelector) {
     this._renderedItems = items;
     this._renderer = renderer;
     this._container = document.querySelector(containerSelector);
+    this._api = api;
   }
 
   addItem(item){
     this._container.append(item);    
   }
 
+  /*
   prependItem(item){
     const cardElement = this._renderer(item.name, item.link);
     this._container.prepend(cardElement);
   }
+  */
 
   renderItems(){
-    this._renderedItems.forEach((item) => {
-      const cardElement = this._renderer(item.name, item.link);
-      this.addItem(cardElement);
-    });
+    this._api
+      .getUserData()
+      .then((res) => {
+        //console.log(res._id)
+        
+        this._renderedItems.forEach((data) => {
+          
+          const myID = res._id;
+          const cardElement = this._renderer(data, myID);      
+          this.addItem(cardElement);
+        });
+      
+      });
+
   }
+
+  
   
 };
 

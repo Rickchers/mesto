@@ -49,12 +49,15 @@ const addCardButton = profile.querySelector('.profile__add-button');
 //заголовок профиля (имя пользователя)
 const userName = profile.querySelector('.profile__title');
 //подзаголовок профиля (род занятий пользователя)
-const userJob = profile.querySelector('.profile__subtitle');
+const userAbout = profile.querySelector('.profile__subtitle');
 //кнопка "редактировать профиль"
 const editProfileButton = profile.querySelector('.profile__edit-button');
 
 //узел документа, содержащий карточки
 const cards = document.querySelector('.cards');
+
+//элемент счетчика лайков на карточке
+const likes = document.querySelector('.likes');
 
 
 //массив объектов карточек
@@ -104,9 +107,10 @@ export {
   profile,
   addCardButton,
   userName,
-  userJob,
+  userAbout,
   editProfileButton,
   cards,
   initialCards,
+  likes
   
 };
