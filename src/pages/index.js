@@ -4,6 +4,8 @@ import { Section } from '../components/Section.js';
 import { Popup } from '../components/Popup.js';
 import {PopupWithForm} from '../components/PopupWithForm.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
+import { PopupDelCardConfirm } from '../components/PopupDelCardConfirm.js';
+
 import { UserInfo } from '../components/UserInfo.js';
 import { FormValidator } from '../components/FormValidator.js';
 import { Api } from '../components/Api.js';
@@ -53,23 +55,58 @@ api.getInitialCards()
 
 
 
+/*
+api.getInitialCards()
+  .then(cards) => {
+    cards.forEach(data => {
+      const card = createCardElement(data);
+      section.addItem(card);
+    })
+  }
+*/  
 //===================================================================================
 
-// const cardList = new Section({
-//   items: initialCards,
-//   renderer: createCardElement,
-// }, '.cards');
 
-// cardList.renderItems();
 
 
 //функция создания карточки
 function createCardElement (data, myID) {
-  const card = new Card(data, handleCardClick, '#card');
-  //const {userNameValue, userJobValue} = profileUserInfo.getUserInfo();  
+  const card = new Card(data, handleCardClick, handleBusketIconClick, '#card', api);
   const cardElement = card.generateCard(myID);
+  
   return cardElement;
 }
+
+//============================
+//экземпляр поп-ап объекта "Подтвердить удаление" класса PopupDelCardConfirm
+const popupDelCardConfirm = new PopupDelCardConfirm ('#popup-confirm', delSubmitHandler);
+
+function delSubmitHandler(id, item){  
+
+  //console.log(id, item);
+  
+  api.removeCard(id)
+      .then((result) => {
+        console.log(result);        
+      });
+
+  item.remove();
+ 
+  popupDelCardConfirm.close();
+}
+
+
+
+
+
+function handleBusketIconClick(id, item){ 
+  //console.log(id, item);
+  popupDelCardConfirm.open(id, item);
+}
+
+
+//============================
+
 
 //экземпляр поп-ап объекта "Редактировать профиль" класса PopupWithForm 
 const popupEditProfile = new PopupWithForm('#editInfo', saveProfileFormSubmitHandler);
@@ -117,6 +154,8 @@ function handleCardClick(name, link){
   myPopupWithImage.open(name, link);
 }
 
+
+
 //функция колл-бэк на событие 'click' кнопки "редактировать профиль"
 function openEditInfoPopup(){  
   const {userNameValue, userJobValue} = profileUserInfo.getUserInfo();
@@ -129,6 +168,7 @@ function openEditInfoPopup(){
   profileValidation.clearErrorMessages();
   popupEditProfile.open();  
 }
+
 
 //функция колл-бэк на событие 'click' кнопки "добавить карточку"
 function openAddCardPopup() {  

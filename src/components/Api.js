@@ -44,6 +44,26 @@ class Api {
     }) 
   }
 
+  removeCard(id) {
+    return fetch(`${this._url}cards/${id}`, {
+      method: 'DELETE',
+      headers: {
+        authorization: 'c6cdad07-f201-4fb1-b931-468bd978f248',
+        'Content-Type': 'application/json'
+      }
+
+    })
+    .then(res => {
+      if(res.ok){
+        return res.json();
+      }
+    })    
+    .catch((err) => {
+      console.log(err);
+    }) 
+  }
+
+
   getInitialCards() {
     return fetch('https://mesto.nomoreparties.co/v1/cohort-40/cards', {
       method: 'GET',
