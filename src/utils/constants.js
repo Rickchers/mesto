@@ -16,11 +16,15 @@ const popups = document.querySelectorAll('.popup');
 //поп-ап с формой
 const popupEditInfo = document.querySelector('#editInfo');
 
+//поп-ап "обновить аватар"
+const popupEditAvatar = document.querySelector('#avatar');
+
 //поп-ап добавление "Добавить карточку"
 const popupAddCard = document.querySelector('#addCard');
 
 //форма поп-апа "Добавить карточку"
 const formAddCard = popupAddCard.querySelector('#addCardForm')
+
 //поле ввода имени карточки
 const cardName = popupAddCard.querySelector('#cardName');
 //поле ввода адреса картинки карточки
@@ -38,11 +42,15 @@ const popupFigcaption = document.querySelector('.popup__figcaption');
 //форма поп-апа "Редактировать профиль"
 const formEditProfile = popupEditInfo.querySelector('#editInfoForm');
 
+//форма поп-апа "Обновить аватар"
+const formEditAvatar = popupEditAvatar.querySelector('#avatarForm')
+
 //поля формы поп-апа "Редактировать профиль" в документе
 const formUserNameField = document.querySelector('#username');
 const formUserJobField = document.querySelector('#userjob');
 
 //секция профиль
+//=========================================================================
 const profile = document.querySelector('.profile')
 //кнопка добавить карточку
 const addCardButton = profile.querySelector('.profile__add-button');
@@ -52,6 +60,12 @@ const userName = profile.querySelector('.profile__title');
 const userAbout = profile.querySelector('.profile__subtitle');
 //кнопка "редактировать профиль"
 const editProfileButton = profile.querySelector('.profile__edit-button');
+//аватар
+const avatar = profile.querySelector('.profile__avatar-wrapper');
+
+
+//=========================================================================
+
 
 //узел документа, содержащий карточки
 const cards = document.querySelector('.cards');
@@ -111,6 +125,8 @@ export {
   editProfileButton,
   cards,
   initialCards,
-  likes
+  likes,
+  avatar,
+  formEditAvatar
   
 };

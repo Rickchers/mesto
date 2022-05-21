@@ -3,6 +3,7 @@ import { Card } from '../components/Card.js';
 import { Section } from '../components/Section.js';
 import { Popup } from '../components/Popup.js';
 import {PopupWithForm} from '../components/PopupWithForm.js';
+//import {PopupAvatar} from '../components/PopupAvatar.js';
 import { PopupWithImage } from '../components/PopupWithImage.js';
 import { PopupDelCardConfirm } from '../components/PopupDelCardConfirm.js';
 
@@ -21,7 +22,9 @@ import {
   editProfileButton,
   //initialCards,
   cards,
-  likes
+  likes,
+  avatar,
+  formEditAvatar,
 } from '../utils/constants.js';
 
 //===================================================================================
@@ -36,8 +39,16 @@ const api = new Api({
 
 api.getUserData()
   .then((result) => {
+    function loadCallback(evt) {
+      document.querySelector('.profile').prepend(evt.target);
+    }
+    const myImg = document.createElement('img');
+    myImg.classList.add('profile__avatar');    
+    myImg.src = result.avatar;
+    myImg.onload = loadCallback;
+    
+    //document.querySelector('.profile__avatar').src = result.avatar;
     profileUserInfo.setUserInfo(result.name, result.about);
-    document.querySelector('.profile__avatar').src = result.avatar;
     
   })
 
@@ -71,20 +82,15 @@ api.getInitialCards()
 
 //функция создания карточки
 function createCardElement (data, myID) {
-  const card = new Card(data, handleCardClick, handleBusketIconClick, '#card', api);
-  const cardElement = card.generateCard(myID);
-  
+  const card = new Card(data, handleCardClick, handleBusketIconClick, '#card', setLike, unsetLike);
+  const cardElement = card.generateCard(myID);  
   return cardElement;
 }
 
 //============================
-//экземпляр поп-ап объекта "Подтвердить удаление" класса PopupDelCardConfirm
-const popupDelCardConfirm = new PopupDelCardConfirm ('#popup-confirm', delSubmitHandler);
 
 function delSubmitHandler(id, item){  
 
-  //console.log(id, item);
-  
   api.removeCard(id)
       .then((result) => {
         console.log(result);        
@@ -95,18 +101,35 @@ function delSubmitHandler(id, item){
   popupDelCardConfirm.close();
 }
 
+function setLike(id, card) {
+  api.setLike(id)
+    .then((result) => {
+      card.querySelector('.likes').textContent = result.likes.length;        
+    });
+}
 
+function unsetLike(id, card) {
+  api.unsetLike(id)
+    .then((result) => {
+      card.querySelector('.likes').textContent = result.likes.length;        
+    });
+}
 
 
 
 function handleBusketIconClick(id, item){ 
-  //console.log(id, item);
   popupDelCardConfirm.open(id, item);
 }
 
 
 //============================
 
+
+//экземпляр поп-ап объекта "Обновление аватара пользователя" класса PopupWithForm 
+const popupEditAvatar = new PopupWithForm('#avatar', saveAvatarFormSubmitHandler);
+
+//экземпляр поп-ап объекта "Подтвердить удаление" класса PopupDelCardConfirm
+const popupDelCardConfirm = new PopupDelCardConfirm ('#popup-confirm', delSubmitHandler);
 
 //экземпляр поп-ап объекта "Редактировать профиль" класса PopupWithForm 
 const popupEditProfile = new PopupWithForm('#editInfo', saveProfileFormSubmitHandler);
@@ -130,6 +153,16 @@ function saveProfileFormSubmitHandler(formData) {
       profileUserInfo.setUserInfo(data.name, data.about);  
     }); 
   popupEditProfile.close();  
+}
+
+//функция обработчик события submit формы поп-апа "Обновление аватара пользователя"
+function saveAvatarFormSubmitHandler(formData) {
+  api.setAvatar(formData.link)
+    .then((result) => {
+      document.querySelector('.profile__avatar').src = result.avatar;
+      console.log(result.avatar); 
+    }); 
+    popupEditAvatar.close();  
 }
 
 //функция обработчик события submit формы поп-апа добавления карточки
@@ -178,14 +211,26 @@ function openAddCardPopup() {
   popupAddProfile.open();
 }
 
+//функция колл-бэк на событие 'click' кнопки "Обновление аватара пользователя"
+function openEditAvatarPopup() { 
+  avatarValidation.clearErrorMessages();
+  popupEditAvatar.open();
+}
+
 //eventListeners
 //слушатель событий кнопки "редактировать профиль"
 editProfileButton.addEventListener('click', openEditInfoPopup);
+
+//слушатель событий на аватаре
+avatar.addEventListener('click', openEditAvatarPopup);
 
 //слушатель событий кнопки "добавить карточку"
 addCardButton.addEventListener('click', openAddCardPopup);
 
 const profileValidation = new FormValidator(settingsObject, formEditProfile);
 const newCardValidation = new FormValidator(settingsObject, formAddCard);
+const avatarValidation = new FormValidator(settingsObject, formEditAvatar);
+
 profileValidation.enableValidation();
 newCardValidation.enableValidation();
+avatarValidation.enableValidation();

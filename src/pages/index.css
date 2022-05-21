@@ -23,6 +23,8 @@
 @import url(../blocks/profile/__wrapper/profile__wrapper.css);
 @import url(../blocks/profile/__button-image/profile__button-image.css);
 @import url(../blocks/profile/__add-button-image/profile__add-button-image.css);
+@import url(../blocks/profile/__edit-icon/profile__edit-icon.css);
+@import url(../blocks/profile/__avatar-wrapper/profile__avatar-wrapper.css);
 
 /*block cards*/
 @import url(../blocks/cards/cards.css);
