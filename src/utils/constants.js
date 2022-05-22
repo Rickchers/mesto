@@ -71,7 +71,7 @@ const avatar = profile.querySelector('.profile__avatar-wrapper');
 const cards = document.querySelector('.cards');
 
 //элемент счетчика лайков на карточке
-const likes = document.querySelector('.likes');
+const likes = document.querySelector('.card__likes');
 
 
 //массив объектов карточек

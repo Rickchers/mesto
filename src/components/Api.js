@@ -5,7 +5,7 @@ class Api {
   }
 
   setLike(id) {
-    //alert('api say`s ' + id);
+    
     return fetch(`${this._url}cards/${id}/likes`, {
       method: 'PUT',
       headers: {
@@ -24,7 +24,7 @@ class Api {
   }
 
   unsetLike(id) {
-    //alert('api say`s ' + id);
+    
     return fetch(`${this._url}cards/${id}/likes`, {
       method: 'DELETE',
       headers: {
@@ -126,7 +126,7 @@ class Api {
 
 
   getInitialCards() {
-    return fetch('https://mesto.nomoreparties.co/v1/cohort-40/cards', {
+    return fetch(`${this._url}cards`, {
       method: 'GET',
       headers: {
         authorization: 'c6cdad07-f201-4fb1-b931-468bd978f248'
@@ -144,7 +144,7 @@ class Api {
   }
 
   postNewCard(data) {
-    return fetch('https://mesto.nomoreparties.co/v1/cohort-40/cards', {
+    return fetch(`${this._url}cards`, {
       method: 'POST',
       headers: {
         authorization: 'c6cdad07-f201-4fb1-b931-468bd978f248',
