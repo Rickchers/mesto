@@ -28,7 +28,7 @@ const formAddCard = popupAddCard.querySelector('#addCardForm')
 //поле ввода имени карточки
 const cardName = popupAddCard.querySelector('#cardName');
 //поле ввода адреса картинки карточки
-const cardLink = popupAddCard.querySelector('#cardLink');
+//const cardLink = popupAddCard.querySelector('#cardLink');
 
 //поп-ап с картинкой
 const popupPreview = document.querySelector('#popup-preview');
@@ -110,7 +110,7 @@ export {
   popupAddCard,
   formAddCard,
   cardName,
-  cardLink,
+  //cardLink,
   popupPreview,
   closeIconPreview,
   popupImage,
