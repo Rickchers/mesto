@@ -24,103 +24,84 @@ import {
   formEditAvatar,
 } from '../utils/constants.js';
 
-//===================================================================================
 
 const api = new Api({
     url: 'https://mesto.nomoreparties.co/v1/cohort-40/',
     headers: {
-      authorization: 'c6cdad07-f201-4fb1-b931-468bd978f248'
+      authorization: 'c6cdad07-f201-4fb1-b931-468bd978f248',
+      'Content-Type': 'application/json'
     }
   }
 );
 
-api.getUserData()
-  .then((result) => {
-    function loadCallback(evt) {
-      document.querySelector('.profile').prepend(evt.target);
-    }
-    const myImg = document.createElement('img');
-    myImg.classList.add('profile__avatar');    
-    myImg.src = result.avatar;
-    myImg.onload = loadCallback;
+
+//единственный экземпляр класса Section
+const cardList = new Section(createCardElement, '.cards');
+
+Promise.all([api.getUserData(), api.getCards()])
+ 
+  .then(([apiUserData, apiCards]) => {
+    //устанавливаем данные пользователя   
+    profileUserInfo.setUserInfo(apiUserData.name, apiUserData.about);
+    profileUserInfo.setUserID(apiUserData._id);
+    profileUserInfo.setUserAvatar(apiUserData.avatar);
     
-    profileUserInfo.setUserInfo(result.name, result.about);
-    
+    //отрисовка карточек    
+    cardList.renderItems(apiCards, apiUserData._id);
   })
-
-
-api.getInitialCards()
-  .then((data) => {    
-    const cardList = new Section({
-
-      items: data,
-      renderer: createCardElement},
-      api,
-      '.cards');    
-    cardList.renderItems();
-  })
-
-//===================================================================================
-
-
+  .catch((err) => {
+    console.log(`Ошибка: ${err}`)
+  });
 
 
 //функция создания карточки
 function createCardElement (data, myID) {
-  const card = new Card(data, handleCardClick, handleBusketIconClick, '#card', setLike, unsetLike);
+  const card = new Card(data, handleCardClick, handleBusketIconClick, '#card', handleLike, myID);
   const cardElement = card.generateCard(myID);  
   return cardElement;
 }
 
-//============================
-
-function delSubmitHandler(id, item){  
+function handleDelSubmit(id, item){  
 
   api.removeCard(id)
       .then((result) => {
-        console.log(result);        
+        console.log(result);
+        item.remove();        
+        popupDelCardConfirm.close();
       });
 
-  item.remove();
+  
  
-  popupDelCardConfirm.close();
 }
-
-function setLike(id, card) {
-  api.setLike(id)
-    .then((result) => {
-      card.querySelector('.card__likes').textContent = result.likes.length;        
-    });
-}
-
-function unsetLike(id, card) {
-  api.unsetLike(id)
-    .then((result) => {
-      card.querySelector('.card__likes').textContent = result.likes.length;        
-    });
-}
-
-
 
 function handleBusketIconClick(id, item){ 
   popupDelCardConfirm.open(id, item);
 }
 
+function handleLike(card) {
+  api.changeLikeCardStatus(card.getId(), !card.isLiked())
+    .then((res) => {
+      //console.log('пришел ответ');
+      card.updateLikes(res)
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 
-//============================
 
 
 //экземпляр поп-ап объекта "Обновление аватара пользователя" класса PopupWithForm 
-const popupEditAvatar = new PopupWithForm('#avatar', saveAvatarFormSubmitHandler);
+const popupEditAvatar = new PopupWithForm('#avatar', handleAvatarFormSubmit);
 
 //экземпляр поп-ап объекта "Подтвердить удаление" класса PopupDelCardConfirm
-const popupDelCardConfirm = new PopupDelCardConfirm ('#popup-confirm', delSubmitHandler);
+const popupDelCardConfirm = new PopupDelCardConfirm ('#popup-confirm', handleDelSubmit);
 
 //экземпляр поп-ап объекта "Редактировать профиль" класса PopupWithForm 
-const popupEditProfile = new PopupWithForm('#editInfo', saveProfileFormSubmitHandler);
+const popupEditProfile = new PopupWithForm('#editInfo', handleProfileFormSubmit);
 
 //экземпляр поп-ап объекта "Добавить карточку" класса PopupWithForm 
-const popupAddProfile = new PopupWithForm('#addCard', saveAddCardFormSubmitHandler);
+const popupAddProfile = new PopupWithForm('#addCard', handleAddCardFormSubmit);
 
 //экземпляр объекта "Поп-ап с картинкой" класса PopupWithImage 
 const myPopupWithImage = new PopupWithImage('#popup-preview');
@@ -132,81 +113,66 @@ const profileUserInfo = new UserInfo ({
 });
 
 
-function renderLoading(isLoading, popup) {
+function renderLoading(isLoading, button) {
   if (isLoading) {
-    popup.textContent = 'Сохранение...';  
+    button.textContent = 'Сохранение...';  
   } else {  
-    popup.textContent = 'Сохранить';  
+    button.textContent = 'Сохранить';  
   }
 }
  
 
 //функция обработчик события submit формы поп-апа редактирования профиля
-function saveProfileFormSubmitHandler(formData, popup) {
+function handleProfileFormSubmit(formData, button) {
   
-  renderLoading(true, popup);
-  
-  //поставил таймер чтобы было видно появление надписи "сохранение..."
-  setTimeout(showMessage, 1000);
+  renderLoading(true, button); 
 
-  function showMessage (){
-
-    api.setUserData(formData.name, formData.about)
-      .then((data) => {
-        profileUserInfo.setUserInfo(data.name, data.about);  
-      })
-      .catch((err) => {
-        (err) => console.log(`Ошибка: ${err}`)
-      });
-    
-    popupEditProfile.close();
-    setTimeout(renderLoading, 1000, false, popup);
-  }
-  
+  api.setUserData(formData.name, formData.about)
+    .then((data) => {
+      profileUserInfo.setUserInfo(data.name, data.about);
+      profileUserInfo.setUserID(data._id);
+      popupEditProfile.close();  
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`)
+    })
+    .finally(()=>{setTimeout(renderLoading, 1000, false, button)});  
 
 }
 
 //функция обработчик события submit формы поп-апа "Обновление аватара пользователя"
-function saveAvatarFormSubmitHandler(formData, popup) {
-  renderLoading(true, popup);
+function handleAvatarFormSubmit(formData, button) {
+  renderLoading(true, button);
 
-  //поставил таймер чтобы было видно появление надписи "сохранение..."
-  setTimeout(showMessage, 1000);
 
-  function showMessage (){
-    api.setAvatar(formData.link)
-      .then((result) => {
-        document.querySelector('.profile__avatar').src = result.avatar;
-        console.log(result.avatar); 
-      }); 
-    popupEditAvatar.close();
-    setTimeout(renderLoading, 1000, false, popup);
-  }    
+  
+  api.setAvatar(formData.link)
+    .then((result) => {
+      document.querySelector('.profile__avatar').src = result.avatar;
+      console.log(result.avatar); 
+      popupEditAvatar.close();
+    })
+    .finally(()=>{setTimeout(renderLoading, 1000, false, button)});
+      
 }
 
 //функция обработчик события submit формы поп-апа добавления карточки
-function saveAddCardFormSubmitHandler(formData, popup) {  
-  renderLoading(true, popup);
-
-  //поставил таймер чтобы было видно появление надписи "сохранение..."
-  setTimeout(showMessage, 1000);
-
-  function showMessage (){
-    api.postNewCard(formData)
-    .then((data) => {
-      api.getUserData()
-        .then((res) => {
-          const myID = res._id;
-          const cardElement = createCardElement (data, myID);
-          cards.prepend(cardElement);        
-        });
-    })
-    .catch((err) => console.log(err));
-    
+function handleAddCardFormSubmit(formData, button) {  
+  renderLoading(true, button);
+  
+  api.postNewCard(formData)
+  .then((data) => {
+    const myID = profileUserInfo.getUserID();
+    cardList.prependItem(data, myID);
+           
     popupAddProfile.close();
-    setTimeout(renderLoading, 1000, false, popup);
-  }  
+  })
+  .catch((err) => console.log(err))
+  .finally(()=>{setTimeout(renderLoading, 1000, false, button)});
+    
 }
+
+
 
 function handleCardClick(name, link){
   myPopupWithImage.open(name, link);
@@ -259,26 +225,3 @@ const avatarValidation = new FormValidator(settingsObject, formEditAvatar);
 profileValidation.enableValidation();
 newCardValidation.enableValidation();
 avatarValidation.enableValidation();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-api.getInitialCards()
-  .then(cards) => {
-    cards.forEach(data => {
-      const card = createCardElement(data);
-      section.addItem(card);
-    })
-  }
-*/  

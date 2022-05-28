@@ -9,9 +9,30 @@ class UserInfo {
   getUserInfo(){    
     const userNameValue = this._userName.textContent;
     const userJobValue = this._userJob.textContent;
+    
 
     //возвращает объект с данными пользователя
     return({userNameValue, userJobValue});    
+  }
+
+  setUserID(userID) {
+    this._ID = userID;
+  }
+
+  getUserID () {
+    return this._ID;
+  }
+
+  setUserAvatar(avatar) {
+    //аватар
+    function loadCallback(evt) {
+      document.querySelector('.profile').prepend(evt.target);
+    }
+    const myImg = document.createElement('img');
+    myImg.classList.add('profile__avatar');
+
+    myImg.src = avatar;
+    myImg.onload = loadCallback;
   }
 
   setUserInfo(newUserNameValue, newUserJobValue){
@@ -19,6 +40,7 @@ class UserInfo {
     //и добавляет их на страницу
     this._userName.textContent = newUserNameValue;
     this._userJob.textContent = newUserJobValue;
+
   }
 }
 
