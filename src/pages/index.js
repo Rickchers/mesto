@@ -68,6 +68,9 @@ function handleDelSubmit(id, item){
         console.log(result);
         item.remove();        
         popupDelCardConfirm.close();
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`)
       });
 
   
@@ -110,7 +113,7 @@ const myPopupWithImage = new PopupWithImage('#popup-preview');
 const profileUserInfo = new UserInfo ({
   user: userName,
   job: userAbout
-});
+}, '.profile__avatar');
 
 
 function renderLoading(isLoading, button) {
@@ -130,7 +133,7 @@ function handleProfileFormSubmit(formData, button) {
   api.setUserData(formData.name, formData.about)
     .then((data) => {
       profileUserInfo.setUserInfo(data.name, data.about);
-      profileUserInfo.setUserID(data._id);
+      //profileUserInfo.setUserID(data._id);
       popupEditProfile.close();  
     })
     .catch((err) => {
@@ -148,9 +151,13 @@ function handleAvatarFormSubmit(formData, button) {
   
   api.setAvatar(formData.link)
     .then((result) => {
-      document.querySelector('.profile__avatar').src = result.avatar;
+      profileUserInfo.setUserAvatar(result.avatar);
+      
       console.log(result.avatar); 
       popupEditAvatar.close();
+    })
+    .catch((err) => {
+      console.log(`Ошибка: ${err}`)
     })
     .finally(()=>{setTimeout(renderLoading, 1000, false, button)});
       

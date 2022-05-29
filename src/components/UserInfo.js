@@ -1,9 +1,10 @@
 class UserInfo {
   //Принимает в конструктор объект с селекторами двух элементов:
   //элемента имени пользователя (user) и элемента информации о себе (job)
-  constructor({user, job}) {
+  constructor({user, job}, selector) {
     this._userName = user;
     this._userJob = job;
+    this._avatar = document.querySelector(selector);
   }
   
   getUserInfo(){    
@@ -25,6 +26,7 @@ class UserInfo {
 
   setUserAvatar(avatar) {
     //аватар
+    /*
     function loadCallback(evt) {
       document.querySelector('.profile').prepend(evt.target);
     }
@@ -33,6 +35,8 @@ class UserInfo {
 
     myImg.src = avatar;
     myImg.onload = loadCallback;
+    */
+    this._avatar.src = avatar;
   }
 
   setUserInfo(newUserNameValue, newUserJobValue){
